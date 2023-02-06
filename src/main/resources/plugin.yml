@@ -1,0 +1,5 @@
+name: SparkCommons
+version: '${project.version}'
+main: me.frost.commons.SparkCommons
+api-version: 1.19
+authors: [ frost ]
