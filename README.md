@@ -37,8 +37,8 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#maven">Maven</a></li>
-        <li><a href="#gradle">Gradle</a></li>
+        <li><a href="#maven-(pom.xml)">Maven</a></li>
+        <li><a href="#gradle(build.gradle)">Gradle</a></li>
         <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
@@ -47,7 +47,7 @@
     <li><a href="#optimisation">Optimisation</a></li>
     <li><a href="#authors">Authors</a></li>
     <li><a href="#support">Support</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
+    <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
 </details>
 
