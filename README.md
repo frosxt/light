@@ -37,8 +37,8 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#maven-pom.xml">Maven</a></li>
-        <li><a href="#gradle-build.gradle">Gradle</a></li>
+        <li><a href="#maven-pomxml">Maven</a></li>
+        <li><a href="#gradle-buildgradle">Gradle</a></li>
         <li><a href="#examples">Examples</a></li>
       </ul>
     </li>
