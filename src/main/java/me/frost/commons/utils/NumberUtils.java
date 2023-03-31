@@ -1,6 +1,6 @@
 package me.frost.commons.utils;
 
-public class NumberUtils {
+public final class NumberUtils {
 
     public static boolean isDouble(final String args) {
         try {

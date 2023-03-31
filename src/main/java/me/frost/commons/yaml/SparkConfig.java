@@ -2,12 +2,18 @@ package me.frost.commons.yaml;
 
 import me.frost.commons.SparkCommons;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ *
+ * This class will be used to load a new config file
+ */
 public abstract class SparkConfig {
     private final String fileName;
     private final String path;
@@ -34,7 +40,13 @@ public abstract class SparkConfig {
      * This method will load a new config file
      */
     public void loadFile(JavaPlugin plugin) {
+        File file = new File(path, fileName);
+        if (!file.exists()) {
+            plugin.saveResource(fileName, false);
+        }
 
+        config = YamlConfiguration.loadConfiguration(file);
+        loadedConfigs.put(fileName, config);
     }
 
     public void write() {

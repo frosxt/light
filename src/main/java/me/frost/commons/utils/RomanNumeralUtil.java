@@ -2,7 +2,7 @@ package me.frost.commons.utils;
 
 import java.util.TreeMap;
 
-public class RomanNumeralUtil {
+public final class RomanNumeralUtil {
     private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     public static String convertToRomanNumeral(final int number) {

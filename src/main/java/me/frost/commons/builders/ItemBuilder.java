@@ -1,6 +1,6 @@
 package me.frost.commons.builders;
 
-import me.frost.commons.yaml.ColorUtil;
+import me.frost.commons.colour.ColouredString;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -9,6 +9,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ItemBuilder {
     private final ItemStack itemStack;
@@ -40,7 +41,7 @@ public class ItemBuilder {
 
     public ItemBuilder setName(String name) {
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setDisplayName(ColorUtil.colorMessage(name));
+        Objects.requireNonNull(meta).setDisplayName(new ColouredString(name).toString());
         itemStack.setItemMeta(meta);
         return this;
     }
@@ -57,14 +58,14 @@ public class ItemBuilder {
 
     public ItemBuilder addItemFlag(ItemFlag flag) {
         ItemMeta meta = itemStack.getItemMeta();
-        meta.addItemFlags(flag);
+        Objects.requireNonNull(meta).addItemFlags(flag);
         itemStack.setItemMeta(meta);
         return this;
     }
 
     public ItemBuilder removeItemFlag(ItemFlag flag) {
         ItemMeta meta = itemStack.getItemMeta();
-        if (meta.hasItemFlag(flag)) {
+        if (Objects.requireNonNull(meta).hasItemFlag(flag)) {
             meta.removeItemFlags(flag);
             itemStack.setItemMeta(meta);
         }
@@ -73,7 +74,7 @@ public class ItemBuilder {
 
     public ItemBuilder setUnbreakable() {
         ItemMeta meta = itemStack.getItemMeta();
-        meta.setUnbreakable(true);
+        Objects.requireNonNull(meta).setUnbreakable(true);
         itemStack.setItemMeta(meta);
         return this;
     }
@@ -84,10 +85,10 @@ public class ItemBuilder {
         List<String> l = new ArrayList<>();
 
         for (String string : lore) {
-            l.add(ColorUtil.colorMessage(string));
+            l.add(new ColouredString(string).toString());
         }
 
-        meta.setLore(l);
+        Objects.requireNonNull(meta).setLore(l);
         itemStack.setItemMeta(meta);
         return this;
     }
@@ -96,55 +97,73 @@ public class ItemBuilder {
         ItemMeta meta = itemStack.getItemMeta();
 
         List<String> l = new ArrayList<>();
-        lore.forEach(string -> l.add(ColorUtil.colorMessage(string)));
+        lore.forEach(string -> l.add(new ColouredString(string).toString()));
 
-        meta.setLore(l);
+        Objects.requireNonNull(meta).setLore(l);
         itemStack.setItemMeta(meta);
+
         return this;
     }
 
     public ItemBuilder removeLoreLine(String line) {
         ItemMeta meta = itemStack.getItemMeta();
-        List<String> lore = new ArrayList<>(meta.getLore());
+
+        List<String> lore = new ArrayList<>();
+        if (Objects.requireNonNull(meta).hasLore()) {
+            lore = new ArrayList<>(Objects.requireNonNull(meta.getLore()));
+        }
         if (!lore.contains(line)) {
             return this;
         }
         lore.remove(line);
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
+
         return this;
     }
 
     public ItemBuilder removeLoreLine(int index) {
         ItemMeta meta = itemStack.getItemMeta();
-        List<String> lore = new ArrayList<>(meta.getLore());
+
+        List<String> lore = new ArrayList<>();
+        if (Objects.requireNonNull(meta).hasLore()) {
+            lore = new ArrayList<>(Objects.requireNonNull(meta.getLore()));
+        }
         if (index < 0 || index > lore.size()) {
             return this;
         }
         lore.remove(index);
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
+
         return this;
     }
 
     public ItemBuilder addLoreLine(String line) {
         ItemMeta meta = itemStack.getItemMeta();
+
         List<String> lore = new ArrayList<>();
-        if (meta.hasLore()) {
-            lore = new ArrayList<>(meta.getLore());
+        if (Objects.requireNonNull(meta).hasLore()) {
+            lore = new ArrayList<>(Objects.requireNonNull(meta.getLore()));
         }
-        lore.add(ColorUtil.colorMessage(line));
+        lore.add(new ColouredString(line).toString());
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
+
         return this;
     }
 
     public ItemBuilder addLoreLine(String line, int lineNumber) {
         ItemMeta meta = itemStack.getItemMeta();
-        List<String> lore = new ArrayList<>(meta.getLore());
-        lore.set(lineNumber, ColorUtil.colorMessage(line));
+
+        List<String> lore = new ArrayList<>();
+        if (Objects.requireNonNull(meta).hasLore()) {
+            lore = new ArrayList<>(Objects.requireNonNull(meta.getLore()));
+        }
+        lore.set(lineNumber, new ColouredString(line).toString());
         meta.setLore(lore);
         itemStack.setItemMeta(meta);
+
         return this;
     }
 

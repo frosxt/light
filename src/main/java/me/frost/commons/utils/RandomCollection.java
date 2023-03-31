@@ -4,7 +4,7 @@ import java.util.NavigableMap;
 import java.util.Random;
 import java.util.TreeMap;
 
-public class RandomCollection<E> {
+public final class RandomCollection<E> {
     /**
      * Example usage
      * RandomCollection<String> randomCollection = new RandomCollection<>().add(40 - This is the chance, "dog").add(35, "cat").add(25, "horse");
