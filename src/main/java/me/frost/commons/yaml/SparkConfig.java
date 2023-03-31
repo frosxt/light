@@ -1,6 +1,5 @@
 package me.frost.commons.yaml;
 
-import me.frost.commons.SparkCommons;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -17,7 +16,7 @@ import java.util.function.Consumer;
 public abstract class SparkConfig {
     private final String fileName;
     private final String path;
-    private static FileConfiguration config;
+    private FileConfiguration config;
     private final Consumer<FileConfiguration> writer;
 
     // Hashmap to store every config

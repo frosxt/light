@@ -2,6 +2,10 @@ package me.frost.commons.utils;
 
 public final class NumberUtils {
 
+    // Private constructor to prevent instantiation of utility class
+    private NumberUtils() {
+    }
+
     public static boolean isDouble(final String args) {
         try {
             Double.parseDouble(args);

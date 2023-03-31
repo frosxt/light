@@ -19,7 +19,8 @@ import java.io.IOException;
 public class SparkStore<F extends File> {
     private final Gson gson;
     private final F file;
-    private final JsonObject loaded, loader;
+    private final JsonObject loaded;
+    private final JsonObject loader;
 
     public SparkStore(F file) {
         this.gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
@@ -62,13 +63,11 @@ public class SparkStore<F extends File> {
         getLoader().add(saveAs, object);
         getLoaded().add("spark-store", getLoader());
 
-        try {
+        try (FileWriter writer = new FileWriter(getFile())) {
             getFile().delete();
             getFile().createNewFile();
 
-            FileWriter writer = new FileWriter(getFile());
             writer.write(getGson().toJson(getLoaded()));
-            writer.close();
         } catch (IOException exception) {
             exception.printStackTrace();
         }

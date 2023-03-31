@@ -2,6 +2,10 @@ package me.frost.commons.utils;
 
 public class TimeUtil {
 
+    // Private constructor to prevent instantiation of utility class
+    private TimeUtil() {
+    }
+
     public static String formatTime(final long milliseconds) {
         final long days = milliseconds / 1000L / 60L / 60L / 24L;
         final long hours = milliseconds / 1000L / 60L / 60L - days * 24L;

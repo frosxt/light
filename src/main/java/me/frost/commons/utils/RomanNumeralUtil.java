@@ -5,6 +5,10 @@ import java.util.TreeMap;
 public final class RomanNumeralUtil {
     private static final TreeMap<Integer, String> map = new TreeMap<>();
 
+    // Private constructor to prevent instantiation of utility class
+    private RomanNumeralUtil() {
+    }
+
     public static String convertToRomanNumeral(final int number) {
         return number == map.floorKey(number) ? map.get(number) : map.get(map.floorKey(number)) + convertToRomanNumeral(number - map.floorKey(number));
     }
