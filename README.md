@@ -145,7 +145,7 @@ If there is a specific feature or support for something that you'd like to see, 
 
 ## Optimisations
 
-This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as-with all other Eternal Development products.
+This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as-with all other products.
 
 
 ## Authors
@@ -155,7 +155,7 @@ This library is designed to be as optimised as possible and provide the most cos
 
 ## Support
 
-For support, join our [discord](https://discord.gg/WWBMePg7BA) or message me privately @ muhammad#4616.
+For support, you can message me privately on discord @ muhammad#4616.
 
 
 ## Acknowledgements
