@@ -84,6 +84,7 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - File Manager
 - YAML Config Files
 - Multiple Utilities
+- Menu Support (Paginated & Non-paginated)
 
 
 ## Usage
@@ -117,14 +118,16 @@ new ColouredString(String textToConvert)
 NumberUtils#isInteger(String arguments)
 ```
 ```java
-RGBUtils#getInstance()
+public class ExamplePagedMenu extends PaginatedMenu {
+    public ExamplePagedMenu(Player player) {
+        super(...)
+    }
+}
 ```
 
 ## Roadmap
 
 - [ ] Command Handler
-
-- [ ] Menu Builder (Pagination and Animations)
 
 - [ ] NBTAPI (Supporting all versions)
 
