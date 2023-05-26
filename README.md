@@ -107,7 +107,7 @@ dependencies {
 }
 ```
 #### Examples
-The library can then be used through usages such as:
+The library can be used through usages such as:
 ```java
 new ItemBuilder(...)
 ```
