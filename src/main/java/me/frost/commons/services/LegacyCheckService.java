@@ -37,6 +37,7 @@ public class LegacyCheckService {
     private int getVersionNumber() {
         String number = String.valueOf(version.charAt(2));
         String number2 = String.valueOf(version.charAt(3));
+
         if (StringUtils.use(number2).isInteger()) {
             number += number2;
         }
