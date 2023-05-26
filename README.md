@@ -140,7 +140,7 @@ This is meant for developers to make the development of minecraft plugins easier
 
 #### Will this have x feature or support?
 
-If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue or making one in the discord server.
+If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue.
 
 
 ## Optimisations
