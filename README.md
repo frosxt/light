@@ -22,7 +22,7 @@
   </p>
 </div>
 
-[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url]
+[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![Time](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7)
 
 <details>
   <summary>Table of Contents</summary>
@@ -140,7 +140,7 @@ This is meant for developers to make the development of minecraft plugins easier
 
 #### Will this have x feature or support?
 
-If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue or making one in the discord server.
+If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue.
 
 
 ## Optimisations
@@ -160,4 +160,4 @@ For support, you can message me privately on discord @ muhammad#4616.
 
 ## Acknowledgements
 * [CoasterFreakDE](https://github.com/CoasterFreakDE/minecraft-spigot-rgb-chat-support) - RGBChat integration
-* [CrpytoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
+* [CryptoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
