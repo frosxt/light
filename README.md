@@ -22,7 +22,7 @@
   </p>
 </div>
 
-[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![Time](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7)
+[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7)
 
 <details>
   <summary>Table of Contents</summary>
