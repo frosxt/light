@@ -160,4 +160,4 @@ For support, you can message me privately on discord @ muhammad#4616.
 
 ## Acknowledgements
 * [CoasterFreakDE](https://github.com/CoasterFreakDE/minecraft-spigot-rgb-chat-support) - RGBChat integration
-* [CrpytoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
+* [CryptoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
