@@ -122,6 +122,11 @@ public class ExamplePagedMenu extends PaginatedMenu {
     public ExamplePagedMenu(Player player) {
         super(...)
     }
+    
+    @Override
+    public void onClose(InventoryCloseEvent event) {
+        MenuHandler.getInstance().getMenus().remove(event.getPlayer());
+    }
 }
 ```
 
