@@ -148,6 +148,7 @@ public final class ActionBar {
                     try {
                         time = Integer.parseInt(message.substring(1, end)) * 20;
                     } catch (final NumberFormatException ignored) {
+                        // Ignored catch block
                     }
                     if (time >= 0) sendActionBar(plugin, player, message.substring(end + 1), time);
                 }
