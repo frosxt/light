@@ -11,7 +11,9 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 public abstract class Menu {
     private final Player player;
@@ -21,7 +23,7 @@ public abstract class Menu {
 
     private final List<Button> buttons = new ArrayList<>();
 
-    public Menu(Player player, String title, int size) {
+    public Menu(final Player player, final String title, final int size) {
         this.player = player;
         this.title = title;
         this.size = size;
@@ -31,7 +33,7 @@ public abstract class Menu {
 
     public abstract void onClose(InventoryCloseEvent event);
 
-    public void updateMenu(List<Button> buttons) {
+    public void updateMenu(final List<Button> buttons) {
         final Inventory inventory = this.inventory == null ? Bukkit.createInventory(null, getSize(), new ColouredString(getTitle()).toString()) : this.inventory;
 
         clearMenu(inventory);
@@ -55,7 +57,7 @@ public abstract class Menu {
         this.updateMenu(this.getButtons());
     }
 
-    public void clearMenu(Inventory inventory) {
+    public void clearMenu(final Inventory inventory) {
         if (inventory == null) {
             return;
         }
@@ -69,7 +71,7 @@ public abstract class Menu {
         MenuHandler.getInstance().getMenus().put(getPlayer(), this);
     }
 
-    public boolean click(ClickType clickType, int index) {
+    public boolean click(final ClickType clickType, final int index) {
         final Optional<Button> button = getButtons().stream()
                 .filter(current -> current.getIndex() == index)
                 .findFirst();
@@ -79,6 +81,20 @@ public abstract class Menu {
         }
 
         return false;
+    }
+
+    public void fillMenu(final ItemStack fillerItem) {
+        for (int i = 0; i < getSize(); i++) {
+            buttons.add(new Button(i, fillerItem));
+        }
+    }
+
+    public void fillMenuBorder(final ItemStack fillerItem) {
+        for (int i = 0; i < getSize(); i++) {
+            if (i < 9 || i >= getSize() - 9 || i % 9 == 0 || i % 9 == 8) {
+                buttons.add(new Button(i, fillerItem));
+            }
+        }
     }
 
     public List<Button> getButtons() {
@@ -93,7 +109,7 @@ public abstract class Menu {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = new ColouredString(title).toString();
     }
 
