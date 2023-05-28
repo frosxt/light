@@ -22,7 +22,7 @@
   </p>
 </div>
 
-[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7&v=2)
+[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7&v=2) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b3d0d7dc9fc8471fbf1810596106b4ae)](https://app.codacy.com/gh/frosxt/SparkCommons/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 <details>
   <summary>Table of Contents</summary>
