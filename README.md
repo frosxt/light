@@ -86,7 +86,7 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - Multiple Utilities
 - Menu Support (Paginated & non-paginated)
 - Command Handler (Support for sub commands)
-- Message Handler (Caches messages for optimal performance, supports titles, actionbar and sounds 1.8+)
+- Message Handler (Caches messages for optimal performance, supports titles, actionbar and sounds)
 
 
 ## Usage
