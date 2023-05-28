@@ -203,7 +203,9 @@ public class SkullUtils {
         try {
             UUID.fromString(identifier);
             return ValueType.UUID;
-        } catch (final IllegalArgumentException ignored) {}
+        } catch (final IllegalArgumentException ignored) {
+            // Ignored catch block
+        }
 
         if (isUsername(identifier)) return ValueType.NAME;
         if (identifier.contains("textures.minecraft.net")) return ValueType.TEXTURE_URL;

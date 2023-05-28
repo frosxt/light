@@ -1607,7 +1607,8 @@ public enum XSound {
 
     private static List<String> split(@Nonnull final String str, final char separatorChar) {
         final List<String> list = new ArrayList<>(5);
-        boolean match = false, lastMatch = false;
+        boolean match = false;
+        boolean lastMatch = false;
         final int len = str.length();
         int start = 0;
 
