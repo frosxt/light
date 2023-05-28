@@ -10,11 +10,6 @@ public class ArgumentError extends Error {
         this.exception = exception;
     }
 
-    public ArgumentError(final String cause, final String formattedMessage) {
-        super(cause, null, false, false);
-        this.formattedMessage = formattedMessage;
-    }
-
     public Throwable getException() {
         return this.exception;
     }
