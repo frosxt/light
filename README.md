@@ -84,8 +84,9 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - File Manager
 - YAML Config Files
 - Multiple Utilities
-- Menu Support (Paginated & Non-paginated)
-- Command Handler (Support for Sub Commands)
+- Menu Support (Paginated & non-paginated)
+- Command Handler (Support for sub commands)
+- Message Handler (Caches messages for optimal performance, supports titles, actionbar and sounds 1.8+)
 
 
 ## Usage
@@ -134,10 +135,6 @@ public class ExamplePagedMenu extends PaginatedMenu {
 ## Roadmap
 
 - [ ] NBTAPI (Supporting all versions)
-
-- [ ] Methods to handle things across minecraft versions
-
-- [ ] Message Builder
 
 ## FAQ
 
