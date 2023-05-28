@@ -65,7 +65,7 @@
 [commits-url]: https://github.com/frosxt/commits/master
 # SparkCommons
 
-A library designed to help develop spigot plugins and eliminate redudant code within a project, and across projects. Aims to speed up the development of new projects by removing repetition. Designed to be optimised and be as minimal as possible on performance.
+A library designed to help develop spigot plugins and eliminate redudant code within a project, and across projects. Aims to speed up the development of new projects by removing repetition. Designed to be optimised and  as minimal as possible on performance. Supports minecraft versions from 1.8 to the latest.
 
 ### Built with
 * ![Java][Java]
