@@ -22,7 +22,7 @@
   </p>
 </div>
 
-[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![Time](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7)
+[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7)
 
 <details>
   <summary>Table of Contents</summary>
@@ -84,6 +84,7 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - File Manager
 - YAML Config Files
 - Multiple Utilities
+- Menu Support (Paginated & Non-paginated)
 
 
 ## Usage
@@ -106,7 +107,7 @@ dependencies {
 }
 ```
 #### Examples
-The library can then be used through usages such as:
+The library can be used through usages such as:
 ```java
 new ItemBuilder(...)
 ```
@@ -117,14 +118,21 @@ new ColouredString(String textToConvert)
 NumberUtils#isInteger(String arguments)
 ```
 ```java
-RGBUtils#getInstance()
+public class ExamplePagedMenu extends PaginatedMenu {
+    public ExamplePagedMenu(Player player) {
+        super(...)
+    }
+    
+    @Override
+    public void onClose(InventoryCloseEvent event) {
+        MenuHandler.getInstance().getMenus().remove(event.getPlayer());
+    }
+}
 ```
 
 ## Roadmap
 
 - [ ] Command Handler
-
-- [ ] Menu Builder (Pagination and Animations)
 
 - [ ] NBTAPI (Supporting all versions)
 
