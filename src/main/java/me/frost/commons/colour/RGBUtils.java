@@ -29,15 +29,15 @@ public final class RGBUtils {
         return instance;
     }
 
-    private String toChatColor(String hexCode) {
+    private String toChatColor(final String hexCode) {
         final StringBuilder magic = new StringBuilder("§x");
-        for (char c : hexCode.substring(1).toCharArray()) {
+        for (final char c : hexCode.substring(1).toCharArray()) {
             magic.append('§').append(c);
         }
         return magic.toString();
     }
 
-    private String toHexString(int red, int green, int blue) {
+    private String toHexString(final int red, final int green, final int blue) {
         final StringBuilder sb = new StringBuilder(Integer.toHexString((red << 16) + (green << 8) + blue));
         while (sb.length() < 6) sb.insert(0, "0");
         return sb.toString();
@@ -63,7 +63,7 @@ public final class RGBUtils {
     }
 
     //&#RRGGBB
-    private String fixFormat1(String text) {
+    private String fixFormat1(final String text) {
         return text.replace("&#", "#");
     }
 
@@ -83,7 +83,7 @@ public final class RGBUtils {
         final Matcher m = fix3.matcher(text);
         while (m.find()) {
             final String hexcode = m.group();
-//            text = text.replace(hexcode, "#" + String(charArrayOf(hexcode[3], hexcode[5], hexcode[7], hexcode[9], hexcode[11], hexcode[13])));
+            // text = text.replace(hexcode, "#" + String(charArrayOf(hexcode[3], hexcode[5], hexcode[7], hexcode[9], hexcode[11], hexcode[13])));
             final StringBuilder fixed = new StringBuilder("#");
             fixed.append(hexcode.charAt(3));
             fixed.append(hexcode.charAt(5));
@@ -123,7 +123,7 @@ public final class RGBUtils {
         return input;
     }
 
-    private String asGradient(TextColour start, String text, TextColour end) {
+    private String asGradient(final TextColour start, final String text, final TextColour end) {
         final StringBuilder sb = new StringBuilder();
         final int length = text.length();
         for (int i = 0; i < length; i++) {

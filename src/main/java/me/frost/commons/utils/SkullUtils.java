@@ -44,9 +44,9 @@ import java.util.regex.Pattern;
  * @see ReflectionUtils
  */
 public class SkullUtils {
-    protected static final MethodHandle
-            CRAFT_META_SKULL_PROFILE_GETTER, CRAFT_META_SKULL_PROFILE_SETTER,
-            CRAFT_META_SKULL_BLOCK_SETTER;
+    protected static final MethodHandle CRAFT_META_SKULL_PROFILE_GETTER;
+    protected static final MethodHandle CRAFT_META_SKULL_PROFILE_SETTER;
+    protected static final MethodHandle CRAFT_META_SKULL_BLOCK_SETTER;
 
     /**
      * Some people use this without quotes surrounding the keys, not sure what that'd work.
@@ -76,34 +76,36 @@ public class SkullUtils {
     private static final String TEXTURES = "https://textures.minecraft.net/texture/";
 
     static {
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
-        MethodHandle profileSetter = null, profileGetter = null, blockSetter = null;
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
+        MethodHandle profileSetter = null;
+        MethodHandle profileGetter = null;
+        MethodHandle blockSetter = null;
 
         try {
-            Class<?> CraftMetaSkull = ReflectionUtils.getCraftClass("inventory.CraftMetaSkull");
-            Field profile = CraftMetaSkull.getDeclaredField("profile");
+            final Class<?> CraftMetaSkull = ReflectionUtils.getCraftClass("inventory.CraftMetaSkull");
+            final Field profile = CraftMetaSkull.getDeclaredField("profile");
             profile.setAccessible(true);
             profileGetter = lookup.unreflectGetter(profile);
 
             try {
                 // https://github.com/CryptoMorin/XSeries/issues/169
-                Method setProfile = CraftMetaSkull.getDeclaredMethod("setProfile", GameProfile.class);
+                final Method setProfile = CraftMetaSkull.getDeclaredMethod("setProfile", GameProfile.class);
                 setProfile.setAccessible(true);
                 profileSetter = lookup.unreflect(setProfile);
-            } catch (NoSuchMethodException e) {
+            } catch (final NoSuchMethodException e) {
                 profileSetter = lookup.unreflectSetter(profile);
             }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
+        } catch (final NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
         try {
             // CraftSkull private GameProfile profile;
-            Class<?> CraftSkullBlock = ReflectionUtils.getCraftClass("block.CraftSkull");
-            Field field = CraftSkullBlock.getDeclaredField("profile");
+            final Class<?> CraftSkullBlock = ReflectionUtils.getCraftClass("block.CraftSkull");
+            final Field field = CraftSkullBlock.getDeclaredField("profile");
             field.setAccessible(true);
             blockSetter = lookup.unreflectSetter(field);
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
             e.printStackTrace();
         }
 
@@ -112,11 +114,10 @@ public class SkullUtils {
         CRAFT_META_SKULL_BLOCK_SETTER = blockSetter;
     }
 
-    @SuppressWarnings("deprecation")
     @Nonnull
-    public static ItemStack getSkull(@Nonnull UUID id) {
-        ItemStack head = XMaterial.PLAYER_HEAD.parseItem();
-        SkullMeta meta = (SkullMeta) head.getItemMeta();
+    public static ItemStack getSkull(@Nonnull final UUID id) {
+        final ItemStack head = XMaterial.PLAYER_HEAD.parseItem();
+        final SkullMeta meta = (SkullMeta) head.getItemMeta();
 
         if (SUPPORTS_UUID) meta.setOwningPlayer(Bukkit.getOfflinePlayer(id));
         else meta.setOwner(Bukkit.getOfflinePlayer(id).getName());
@@ -125,10 +126,9 @@ public class SkullUtils {
         return head;
     }
 
-    @SuppressWarnings("deprecation")
     @Nonnull
-    public static SkullMeta applySkin(@Nonnull ItemMeta head, @Nonnull OfflinePlayer identifier) {
-        SkullMeta meta = (SkullMeta) head;
+    public static SkullMeta applySkin(@Nonnull final ItemMeta head, @Nonnull final OfflinePlayer identifier) {
+        final SkullMeta meta = (SkullMeta) head;
         if (SUPPORTS_UUID) {
             meta.setOwningPlayer(identifier);
         } else {
@@ -138,14 +138,13 @@ public class SkullUtils {
     }
 
     @Nonnull
-    public static SkullMeta applySkin(@Nonnull ItemMeta head, @Nonnull UUID identifier) {
+    public static SkullMeta applySkin(@Nonnull final ItemMeta head, @Nonnull final UUID identifier) {
         return applySkin(head, Bukkit.getOfflinePlayer(identifier));
     }
 
-    @SuppressWarnings("deprecation")
     @Nonnull
-    public static SkullMeta applySkin(@Nonnull ItemMeta head, @Nonnull String identifier) {
-        SkullMeta meta = (SkullMeta) head;
+    public static SkullMeta applySkin(@Nonnull final ItemMeta head, @Nonnull final String identifier) {
+        final SkullMeta meta = (SkullMeta) head;
         // @formatter:off
         switch (detectSkullValueType(identifier)) {
             case UUID: return applySkin(head, Bukkit.getOfflinePlayer(UUID.fromString(identifier)));
@@ -160,13 +159,13 @@ public class SkullUtils {
     }
 
     @Nonnull
-    protected static SkullMeta setSkullBase64(@Nonnull SkullMeta head, @Nonnull String value) {
+    protected static SkullMeta setSkullBase64(@Nonnull final SkullMeta head, @Nonnull final String value) {
         if (value == null || value.isEmpty()) throw new IllegalArgumentException("Skull value cannot be null or empty");
-        GameProfile profile = profileFromBase64(value);
+        final GameProfile profile = profileFromBase64(value);
 
         try {
             CRAFT_META_SKULL_PROFILE_SETTER.invoke(head, profile);
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             ex.printStackTrace();
         }
 
@@ -174,19 +173,19 @@ public class SkullUtils {
     }
 
     @Nonnull
-    public static GameProfile profileFromBase64(String value) {
-        GameProfile profile = new GameProfile(UUID.randomUUID(), null);
+    public static GameProfile profileFromBase64(final String value) {
+        final GameProfile profile = new GameProfile(UUID.randomUUID(), null);
         profile.getProperties().put("textures", new Property("textures", value));
         return profile;
     }
 
     @Nonnull
-    public static GameProfile profileFromPlayer(OfflinePlayer player) {
+    public static GameProfile profileFromPlayer(final OfflinePlayer player) {
         return new GameProfile(player.getUniqueId(), player.getName());
     }
 
     @Nonnull
-    public static GameProfile detectProfileFromString(String identifier) {
+    public static GameProfile detectProfileFromString(final String identifier) {
         // @formatter:off sometimes programming is just art that a machine can't understand :)
         switch (detectSkullValueType(identifier)) {
             case UUID:         return new GameProfile(UUID.fromString(               identifier), null);
@@ -200,11 +199,11 @@ public class SkullUtils {
         // @formatter:on
     }
 
-    public static ValueType detectSkullValueType(String identifier) {
+    public static ValueType detectSkullValueType(final String identifier) {
         try {
             UUID.fromString(identifier);
             return ValueType.UUID;
-        } catch (IllegalArgumentException ignored) {}
+        } catch (final IllegalArgumentException ignored) {}
 
         if (isUsername(identifier)) return ValueType.NAME;
         if (identifier.contains("textures.minecraft.net")) return ValueType.TEXTURE_URL;
@@ -216,30 +215,30 @@ public class SkullUtils {
         return ValueType.UNKNOWN;
     }
 
-    public static void setSkin(@Nonnull Block block, @Nonnull String value) {
+    public static void setSkin(@Nonnull final Block block, @Nonnull final String value) {
         Objects.requireNonNull(block, "Can't set skin of null block");
 
-        BlockState state = block.getState();
+        final BlockState state = block.getState();
         if (!(state instanceof Skull)) return;
-        Skull skull = (Skull) state;
+        final Skull skull = (Skull) state;
 
-        GameProfile profile = detectProfileFromString(value);
+        final GameProfile profile = detectProfileFromString(value);
         try {
             CRAFT_META_SKULL_BLOCK_SETTER.invoke(skull, profile);
-        } catch (Throwable e) {
+        } catch (final Throwable e) {
             throw new RuntimeException("Error while setting block skin with value: " + value, e);
         }
 
         skull.update(true);
     }
 
-    public static String encodeTexturesURL(String url) {
+    public static String encodeTexturesURL(final String url) {
         // String.format bad!
         return encodeBase64(VALUE_PROPERTY + url + "\"}}}");
     }
 
     @Nonnull
-    private static String encodeBase64(@Nonnull String str) {
+    private static String encodeBase64(@Nonnull final String str) {
         return Base64.getEncoder().encodeToString(str.getBytes());
     }
 
@@ -247,30 +246,30 @@ public class SkullUtils {
      * While RegEx is a little faster for small strings, this always checks strings with a length
      * greater than 100, so it'll perform a lot better.
      */
-    private static boolean isBase64(@Nonnull String base64) {
+    private static boolean isBase64(@Nonnull final String base64) {
         try {
             Base64.getDecoder().decode(base64);
             return true;
-        } catch (IllegalArgumentException ignored) {
+        } catch (final IllegalArgumentException ignored) {
             return false;
         }
         //return BASE64.matcher(base64).matches();
     }
 
     @Nullable
-    public static String getSkinValue(@Nonnull ItemMeta skull) {
+    public static String getSkinValue(@Nonnull final ItemMeta skull) {
         Objects.requireNonNull(skull, "Skull ItemStack cannot be null");
-        SkullMeta meta = (SkullMeta) skull;
+        final SkullMeta meta = (SkullMeta) skull;
         GameProfile profile = null;
 
         try {
             profile = (GameProfile) CRAFT_META_SKULL_PROFILE_GETTER.invoke(meta);
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             ex.printStackTrace();
         }
 
         if (profile != null && !profile.getProperties().get("textures").isEmpty()) {
-            for (Property property : profile.getProperties().get("textures")) {
+            for (final Property property : profile.getProperties().get("textures")) {
                 if (!property.getValue().isEmpty()) return property.getValue();
             }
         }
@@ -285,14 +284,14 @@ public class SkullUtils {
      *
      * @return true if the string matches the Minecraft username rule, otherwise false.
      */
-    private static boolean isUsername(@Nonnull String name) {
-        int len = name.length();
+    private static boolean isUsername(@Nonnull final String name) {
+        final int len = name.length();
         if (len > 16) { // Yes, in the old Minecraft 1 letter usernames were a thing.
             return false;
         }
 
         // For some reason Apache's Lists.charactersOf is faster than character indexing for small strings.
-        for (char ch : Lists.charactersOf(name)) {
+        for (final char ch : Lists.charactersOf(name)) {
             if (ch != '_' && !(ch >= 'A' && ch <= 'Z') && !(ch >= 'a' && ch <= 'z') && !(ch >= '0' && ch <= '9')) {
                 return false;
             }

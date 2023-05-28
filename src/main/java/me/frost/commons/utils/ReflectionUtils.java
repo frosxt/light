@@ -45,8 +45,8 @@ public final class ReflectionUtils {
         // This package loop is used to avoid implementation-dependant strings like Bukkit.getVersion() or Bukkit.getBukkitVersion()
         // which allows easier testing as well.
         String found = null;
-        for (Package pack : Package.getPackages()) {
-            String name = pack.getName();
+        for (final Package pack : Package.getPackages()) {
+            final String name = pack.getName();
 
             // .v because there are other packages.
             if (name.startsWith("org.bukkit.craftbukkit.v")) {
@@ -60,7 +60,7 @@ public final class ReflectionUtils {
                 try {
                     Class.forName("org.bukkit.craftbukkit." + found + ".entity.CraftPlayer");
                     break;
-                } catch (ClassNotFoundException e) {
+                } catch (final ClassNotFoundException e) {
                     found = null;
                 }
             }
@@ -79,9 +79,8 @@ public final class ReflectionUtils {
     /**
      * Mojang remapped their NMS in 1.17 https://www.spigotmc.org/threads/spigot-bungeecord-1-17.510208/#post-4184317
      */
-    public static final String
-            CRAFTBUKKIT = "org.bukkit.craftbukkit." + VERSION + '.',
-            NMS = v(17, "net.minecraft.").orElse("net.minecraft.server." + VERSION + '.');
+    public static final String CRAFTBUKKIT = "org.bukkit.craftbukkit." + VERSION + '.';
+    public static final String NMS = v(17, "net.minecraft.").orElse("net.minecraft.server." + VERSION + '.');
     /**
      * A nullable public accessible field only available in {@code EntityPlayer}.
      * This can be null if the player is offline.
@@ -102,11 +101,11 @@ public final class ReflectionUtils {
     private static final MethodHandle SEND_PACKET;
 
     static {
-        Class<?> entityPlayer = getNMSClass("server.level", "EntityPlayer");
-        Class<?> craftPlayer = getCraftClass("entity.CraftPlayer");
-        Class<?> playerConnection = getNMSClass("server.network", "PlayerConnection");
+        final Class<?> entityPlayer = getNMSClass("server.level", "EntityPlayer");
+        final Class<?> craftPlayer = getCraftClass("entity.CraftPlayer");
+        final Class<?> playerConnection = getNMSClass("server.network", "PlayerConnection");
 
-        MethodHandles.Lookup lookup = MethodHandles.lookup();
+        final MethodHandles.Lookup lookup = MethodHandles.lookup();
         MethodHandle sendPacket = null, getHandle = null, connection = null;
 
         try {
@@ -116,7 +115,7 @@ public final class ReflectionUtils {
             sendPacket = lookup.findVirtual(playerConnection,
                     v(18, "a").orElse("sendPacket"),
                     MethodType.methodType(void.class, getNMSClass("network.protocol", "Packet")));
-        } catch (NoSuchMethodException | NoSuchFieldException | IllegalAccessException ex) {
+        } catch (final NoSuchMethodException | NoSuchFieldException | IllegalAccessException ex) {
             ex.printStackTrace();
         }
 
@@ -133,11 +132,11 @@ public final class ReflectionUtils {
      *
      * @since 5.0.0
      */
-    public static <T> VersionHandler<T> v(int version, T handle) {
+    public static <T> VersionHandler<T> v(final int version, final T handle) {
         return new VersionHandler<>(version, handle);
     }
 
-    public static <T> CallableVersionHandler<T> v(int version, Callable<T> handle) {
+    public static <T> CallableVersionHandler<T> v(final int version, final Callable<T> handle) {
         return new CallableVersionHandler<>(version, handle);
     }
 
@@ -149,7 +148,7 @@ public final class ReflectionUtils {
      * @return true if the version is equal or newer, otherwise false.
      * @since 4.0.0
      */
-    public static boolean supports(int version) {return VER >= version;}
+    public static boolean supports(final int version) {return VER >= version;}
 
     /**
      * Get a NMS (net.minecraft.server) class which accepts a package for 1.17 compatibility.
@@ -161,7 +160,7 @@ public final class ReflectionUtils {
      * @since 4.0.0
      */
     @Nullable
-    public static Class<?> getNMSClass(@Nonnull String newPackage, @Nonnull String name) {
+    public static Class<?> getNMSClass(@Nonnull final String newPackage, @Nonnull String name) {
         if (supports(17)) name = newPackage + '.' + name;
         return getNMSClass(name);
     }
@@ -175,10 +174,10 @@ public final class ReflectionUtils {
      * @since 1.0.0
      */
     @Nullable
-    public static Class<?> getNMSClass(@Nonnull String name) {
+    public static Class<?> getNMSClass(@Nonnull final String name) {
         try {
             return Class.forName(NMS + name);
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             ex.printStackTrace();
             return null;
         }
@@ -196,7 +195,7 @@ public final class ReflectionUtils {
      * @since 1.0.0
      */
     @Nonnull
-    public static CompletableFuture<Void> sendPacket(@Nonnull Player player, @Nonnull Object... packets) {
+    public static CompletableFuture<Void> sendPacket(@Nonnull final Player player, @Nonnull final Object... packets) {
         return CompletableFuture.runAsync(() -> sendPacketSync(player, packets))
                 .exceptionally(ex -> {
                     ex.printStackTrace();
@@ -213,38 +212,38 @@ public final class ReflectionUtils {
      * @see #sendPacket(Player, Object...)
      * @since 2.0.0
      */
-    public static void sendPacketSync(@Nonnull Player player, @Nonnull Object... packets) {
+    public static void sendPacketSync(@Nonnull final Player player, @Nonnull final Object... packets) {
         try {
-            Object handle = GET_HANDLE.invoke(player);
-            Object connection = PLAYER_CONNECTION.invoke(handle);
+            final Object handle = GET_HANDLE.invoke(player);
+            final Object connection = PLAYER_CONNECTION.invoke(handle);
 
             // Checking if the connection is not null is enough. There is no need to check if the player is online.
             if (connection != null) {
-                for (Object packet : packets) SEND_PACKET.invoke(connection, packet);
+                for (final Object packet : packets) SEND_PACKET.invoke(connection, packet);
             }
-        } catch (Throwable throwable) {
+        } catch (final Throwable throwable) {
             throwable.printStackTrace();
         }
     }
 
     @Nullable
-    public static Object getHandle(@Nonnull Player player) {
+    public static Object getHandle(@Nonnull final Player player) {
         Objects.requireNonNull(player, "Cannot get handle of null player");
         try {
             return GET_HANDLE.invoke(player);
-        } catch (Throwable throwable) {
+        } catch (final Throwable throwable) {
             throwable.printStackTrace();
             return null;
         }
     }
 
     @Nullable
-    public static Object getConnection(@Nonnull Player player) {
+    public static Object getConnection(@Nonnull final Player player) {
         Objects.requireNonNull(player, "Cannot get connection of null player");
         try {
-            Object handle = GET_HANDLE.invoke(player);
+            final Object handle = GET_HANDLE.invoke(player);
             return PLAYER_CONNECTION.invoke(handle);
-        } catch (Throwable throwable) {
+        } catch (final Throwable throwable) {
             throwable.printStackTrace();
             return null;
         }
@@ -259,29 +258,29 @@ public final class ReflectionUtils {
      * @since 1.0.0
      */
     @Nullable
-    public static Class<?> getCraftClass(@Nonnull String name) {
+    public static Class<?> getCraftClass(@Nonnull final String name) {
         try {
             return Class.forName(CRAFTBUKKIT + name);
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public static Class<?> getArrayClass(String clazz, boolean nms) {
+    public static Class<?> getArrayClass(String clazz, final boolean nms) {
         clazz = "[L" + (nms ? NMS : CRAFTBUKKIT) + clazz + ';';
         try {
             return Class.forName(clazz);
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             ex.printStackTrace();
             return null;
         }
     }
 
-    public static Class<?> toArrayClass(Class<?> clazz) {
+    public static Class<?> toArrayClass(final Class<?> clazz) {
         try {
             return Class.forName("[L" + clazz.getName() + ';');
-        } catch (ClassNotFoundException ex) {
+        } catch (final ClassNotFoundException ex) {
             ex.printStackTrace();
             return null;
         }
@@ -291,14 +290,14 @@ public final class ReflectionUtils {
         private int version;
         private T handle;
 
-        private VersionHandler(int version, T handle) {
+        private VersionHandler(final int version, final T handle) {
             if (supports(version)) {
                 this.version = version;
                 this.handle = handle;
             }
         }
 
-        public VersionHandler<T> v(int version, T handle) {
+        public VersionHandler<T> v(final int version, final T handle) {
             if (version == this.version) throw new IllegalArgumentException("Cannot have duplicate version handles for version: " + version);
             if (version > this.version && supports(version)) {
                 this.version = version;
@@ -307,7 +306,7 @@ public final class ReflectionUtils {
             return this;
         }
 
-        public T orElse(T handle) {
+        public T orElse(final T handle) {
             return this.version == 0 ? handle : this.handle;
         }
     }
@@ -316,14 +315,14 @@ public final class ReflectionUtils {
         private int version;
         private Callable<T> handle;
 
-        private CallableVersionHandler(int version, Callable<T> handle) {
+        private CallableVersionHandler(final int version, final Callable<T> handle) {
             if (supports(version)) {
                 this.version = version;
                 this.handle = handle;
             }
         }
 
-        public CallableVersionHandler<T> v(int version, Callable<T> handle) {
+        public CallableVersionHandler<T> v(final int version, final Callable<T> handle) {
             if (version == this.version) throw new IllegalArgumentException("Cannot have duplicate version handles for version: " + version);
             if (version > this.version && supports(version)) {
                 this.version = version;
@@ -332,10 +331,10 @@ public final class ReflectionUtils {
             return this;
         }
 
-        public T orElse(Callable<T> handle) {
+        public T orElse(final Callable<T> handle) {
             try {
                 return (this.version == 0 ? handle : this.handle).call();
-            } catch (Exception e) {
+            } catch (final Exception e) {
                 e.printStackTrace();
                 return null;
             }

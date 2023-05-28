@@ -51,7 +51,7 @@ public final class ActionBar {
      * to use NMS for anything below 1.12
      * We're not going to support Bukkit.
      */
-    private static final boolean USE_SPIGOT_API = ReflectionUtils.supports(12);
+    private static final boolean USE_SPIGOT_API = supports(12);
     /**
      * ChatComponentText JSON message builder.
      */
@@ -65,7 +65,8 @@ public final class ActionBar {
      */
     private static final Object CHAT_MESSAGE_TYPE;
 
-    private static final char TIME_SPECIFIER_START = '^', TIME_SPECIFIER_END = '|';
+    private static final char TIME_SPECIFIER_START = '^';
+    private static final char TIME_SPECIFIER_END = '|';
 
     static {
         MethodHandle packet = null;
@@ -74,10 +75,10 @@ public final class ActionBar {
 
         if (!USE_SPIGOT_API) {
             // Supporting 1.12+ is not necessary, the package guards are just for readability.
-            MethodHandles.Lookup lookup = MethodHandles.lookup();
-            Class<?> packetPlayOutChatClass = getNMSClass("network.protocol.game", "PacketPlayOutChat");
-            Class<?> iChatBaseComponentClass = getNMSClass("network.chat", "IChatBaseComponent");
-            Class<?> ChatSerializerClass = getNMSClass("network.chat", "IChatBaseComponent$ChatSerializer");
+            final MethodHandles.Lookup lookup = MethodHandles.lookup();
+            final Class<?> packetPlayOutChatClass = getNMSClass("network.protocol.game", "PacketPlayOutChat");
+            final Class<?> iChatBaseComponentClass = getNMSClass("network.chat", "IChatBaseComponent");
+            final Class<?> ChatSerializerClass = getNMSClass("network.chat", "IChatBaseComponent$ChatSerializer");
 
             try {
                 // JSON Message Builder
@@ -85,15 +86,15 @@ public final class ActionBar {
                 chatComp = lookup.findStatic(ChatSerializerClass, "a", MethodType.methodType(iChatBaseComponentClass, String.class));
 
                 // Game Info Message Type
-                Class<?> chatMessageTypeClass = Class.forName(
+                final Class<?> chatMessageTypeClass = Class.forName(
                         NMS + v(17, "network.chat").orElse("") + "ChatMessageType"
                 );
 
                 // Packet Constructor
-                MethodType type = MethodType.methodType(void.class, iChatBaseComponentClass, chatMessageTypeClass);
+                final MethodType type = MethodType.methodType(void.class, iChatBaseComponentClass, chatMessageTypeClass);
 
-                for (Object obj : chatMessageTypeClass.getEnumConstants()) {
-                    String name = obj.toString();
+                for (final Object obj : chatMessageTypeClass.getEnumConstants()) {
+                    final String name = obj.toString();
                     if (name.equals("GAME_INFO") || name.equalsIgnoreCase("ACTION_BAR")) {
                         chatMsgType = obj;
                         break;
@@ -101,14 +102,14 @@ public final class ActionBar {
                 }
 
                 packet = lookup.findConstructor(packetPlayOutChatClass, type);
-            } catch (NoSuchMethodException | IllegalAccessException | ClassNotFoundException ignored) {
+            } catch (final NoSuchMethodException | IllegalAccessException | ClassNotFoundException ignored) {
                 try {
                     // Game Info Message Type
                     chatMsgType = (byte) 2;
 
                     // Packet Constructor
                     packet = lookup.findConstructor(packetPlayOutChatClass, MethodType.methodType(void.class, iChatBaseComponentClass, byte.class));
-                } catch (NoSuchMethodException | IllegalAccessException ex) {
+                } catch (final NoSuchMethodException | IllegalAccessException ex) {
                     ex.printStackTrace();
                 }
             }
@@ -139,19 +140,17 @@ public final class ActionBar {
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 3.2.0
      */
-    public static void sendActionBar(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable String message) {
-        if (!Strings.isNullOrEmpty(message)) {
-            if (message.charAt(0) == TIME_SPECIFIER_START) {
-                int end = message.indexOf(TIME_SPECIFIER_END);
+    public static void sendActionBar(@Nonnull final Plugin plugin, @Nonnull final Player player, @Nullable final String message) {
+        if (!Strings.isNullOrEmpty(message) && (message.charAt(0) == TIME_SPECIFIER_START)) {
+                final int end = message.indexOf(TIME_SPECIFIER_END);
                 if (end != -1) {
                     int time = 0;
                     try {
                         time = Integer.parseInt(message.substring(1, end)) * 20;
-                    } catch (NumberFormatException ignored) {
+                    } catch (final NumberFormatException ignored) {
                     }
                     if (time >= 0) sendActionBar(plugin, player, message.substring(end + 1), time);
                 }
-            }
         }
 
         sendActionBar(player, message);
@@ -166,8 +165,7 @@ public final class ActionBar {
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 1.0.0
      */
-    @SuppressWarnings("DynamicRegexReplaceableByCompiledPattern")
-    public static void sendActionBar(@Nonnull Player player, @Nullable String message) {
+    public static void sendActionBar(@Nonnull final Player player, @Nullable final String message) {
         Objects.requireNonNull(player, "Cannot send action bar to null player");
         Objects.requireNonNull(message, "Cannot send null actionbar message");
 
@@ -178,10 +176,10 @@ public final class ActionBar {
 
         try {
             // We need to escape both \ and " to avoid all possiblities of breaking JSON syntax and causing an exception.
-            Object component = CHAT_COMPONENT_TEXT.invoke("{\"text\":\"" + message.replace("\\", "\\\\").replace("\"", "\\\"") + "\"}");
-            Object packet = PACKET_PLAY_OUT_CHAT.invoke(component, CHAT_MESSAGE_TYPE);
+            final Object component = CHAT_COMPONENT_TEXT.invoke("{\"text\":\"" + message.replace("\\", "\\\\").replace("\"", "\\\"") + "\"}");
+            final Object packet = PACKET_PLAY_OUT_CHAT.invoke(component, CHAT_MESSAGE_TYPE);
             sendPacket(player, packet);
-        } catch (Throwable throwable) {
+        } catch (final Throwable throwable) {
             throwable.printStackTrace();
         }
     }
@@ -198,7 +196,7 @@ public final class ActionBar {
      * @see #sendActionBarWhile(Plugin, Player, String, Callable)
      * @since 1.0.0
      */
-    public static void sendActionBar(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable String message, long duration) {
+    public static void sendActionBar(@Nonnull final Plugin plugin, @Nonnull final Player player, @Nullable final String message, final long duration) {
         if (duration < 1) return;
         Objects.requireNonNull(plugin, "Cannot send consistent actionbar with null plugin");
         Objects.requireNonNull(player, "Cannot send actionbar to null player");
@@ -224,8 +222,8 @@ public final class ActionBar {
      * @see #sendActionBar(Player, String)
      * @since 1.0.0
      */
-    public static void sendPlayersActionBar(@Nullable String message) {
-        for (Player player : Bukkit.getOnlinePlayers()) sendActionBar(player, message);
+    public static void sendPlayersActionBar(@Nullable final String message) {
+        for (final Player player : Bukkit.getOnlinePlayers()) sendActionBar(player, message);
     }
 
     /**
@@ -236,7 +234,7 @@ public final class ActionBar {
      * @see #sendActionBar(Player, String)
      * @since 2.1.1
      */
-    public static void clearActionBar(@Nonnull Player player) {
+    public static void clearActionBar(@Nonnull final Player player) {
         sendActionBar(player, " ");
     }
 
@@ -247,7 +245,7 @@ public final class ActionBar {
      * @since 2.1.1
      */
     public static void clearPlayersActionBar() {
-        for (Player player : Bukkit.getOnlinePlayers()) clearActionBar(player);
+        for (final Player player : Bukkit.getOnlinePlayers()) clearActionBar(player);
     }
 
     /**
@@ -265,7 +263,7 @@ public final class ActionBar {
      * @see #sendActionBar(Plugin, Player, String, long)
      * @since 1.0.0
      */
-    public static void sendActionBarWhile(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable String message, @Nonnull Callable<Boolean> callable) {
+    public static void sendActionBarWhile(@Nonnull final Plugin plugin, @Nonnull final Player player, @Nullable final String message, @Nonnull final Callable<Boolean> callable) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -274,7 +272,7 @@ public final class ActionBar {
                         cancel();
                         return;
                     }
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     ex.printStackTrace();
                 }
                 sendActionBar(player, message);
@@ -297,7 +295,7 @@ public final class ActionBar {
      * @see #sendActionBarWhile(Plugin, Player, String, Callable)
      * @since 1.0.0
      */
-    public static void sendActionBarWhile(@Nonnull Plugin plugin, @Nonnull Player player, @Nullable Callable<String> message, @Nonnull Callable<Boolean> callable) {
+    public static void sendActionBarWhile(@Nonnull final Plugin plugin, @Nonnull final Player player, @Nullable final Callable<String> message, @Nonnull final Callable<Boolean> callable) {
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -307,7 +305,7 @@ public final class ActionBar {
                         return;
                     }
                     sendActionBar(player, message.call());
-                } catch (Exception ex) {
+                } catch (final Exception ex) {
                     ex.printStackTrace();
                 }
             }
