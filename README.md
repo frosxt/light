@@ -85,6 +85,7 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - YAML Config Files
 - Multiple Utilities
 - Menu Support (Paginated & Non-paginated)
+- Command Handler (Support for Sub Commands)
 
 
 ## Usage
@@ -132,8 +133,6 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 ## Roadmap
 
-- [ ] Command Handler
-
 - [ ] NBTAPI (Supporting all versions)
 
 - [ ] Methods to handle things across minecraft versions
@@ -169,3 +168,4 @@ For support, you can message me privately on discord @ muhammad#4616.
 ## Acknowledgements
 * [CoasterFreakDE](https://github.com/CoasterFreakDE/minecraft-spigot-rgb-chat-support) - RGBChat integration
 * [CryptoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
+* Command Handler (From an old shared project)
