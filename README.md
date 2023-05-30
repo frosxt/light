@@ -122,12 +122,18 @@ NumberUtils#isInteger(String arguments)
 ```java
 public class ExamplePagedMenu extends PaginatedMenu {
     public ExamplePagedMenu(Player player) {
-        super(...)
+        super(player, new ColouredString("&8&lEXAMPLE PAGINATED MENU").toString(), 18, 2);
+        
+        updateMenu();
     }
     
     @Override
-    public void onClose(InventoryCloseEvent event) {
-        MenuHandler.getInstance().getMenus().remove(event.getPlayer());
+    public void setup() {
+        for (int i = 0; i < 27; i++) {
+            buttons[i] = new Button(XMaterial.matchXMaterial("COMPASS").get().parseMaterial())
+                    .setDisplayName("&eSlot: " + i)
+                    .setClickAction(event -> event.setCancelled(true));
+        }
     }
 }
 ```
@@ -165,4 +171,5 @@ For support, you can message me privately on discord @ muhammad#4616.
 ## Acknowledgements
 * [CoasterFreakDE](https://github.com/CoasterFreakDE/minecraft-spigot-rgb-chat-support) - RGBChat integration
 * [CryptoMorin](https://github.com/CryptoMorin) - XSeries (Titles, ActionBar and other utilities)
+* [NoSequel](https://github.com/NoSequel/MenuAPI) - Menu Handler is heavily based on this, but not entirely the same
 * Command Handler (From an old shared project)
