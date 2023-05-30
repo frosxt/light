@@ -1,67 +1,122 @@
 package me.frost.commons.menus.buttons;
 
+import me.frost.commons.colour.ColouredString;
 import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.material.MaterialData;
 
 import java.util.Arrays;
-import java.util.function.Function;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-public class Button {
-    private final MaterialData materialData;
-    private final ItemMeta itemMeta;
+public class Button implements Cloneable {
+    private final Material material;
+    private final ItemMeta meta;
 
-    private int index;
-    private int amount = 1;
+    private String displayName;
+    private String[] lore;
+    private int amount;
+    private byte data;
 
-    private Function<ClickType, Boolean> clickAction;
+    private Consumer<InventoryClickEvent> clickAction = event -> event.setCancelled(true);
 
-    public Button(int index, ItemStack itemStack) {
-        this.index = index;
-        this.materialData = itemStack.getData();
-        this.itemMeta = itemStack.getItemMeta();
+    public Button(final Material material) {
+        this(new ItemStack(material));
     }
 
-    public Button(int index, Material material) {
-        this(index, new ItemStack(material));
+    public Button(final ItemStack itemStack) {
+        this.material = itemStack.getType();
+        this.meta = itemStack.getItemMeta();
+
+        this.data = itemStack.getData().getData();
+        this.amount = itemStack.getAmount();
     }
 
-    public void setDisplayName(String displayName) {
-        this.itemMeta.setDisplayName(displayName);
-    }
-
-    public void setLore(String... lore) {
-        this.itemMeta.setLore(Arrays.asList(lore));
-    }
-
-    public void setClickAction(Function<ClickType, Boolean> action) {
-        this.clickAction = action;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
+    @Override
+    public Button clone() {
+        return new Button(this.material)
+                .setDisplayName(this.getDisplayName())
+                .setAmount(this.getAmount())
+                .setClickAction(this.getClickAction())
+                .setLore(this.getLore())
+                .setData(this.getData());
     }
 
     public ItemStack toItemStack() {
-        ItemStack itemStack = this.materialData.toItemStack();
+        final ItemStack item = new ItemStack(this.getMaterial(), this.getAmount(), this.getData());
+        final ItemMeta meta;
 
-        itemStack.setAmount(this.amount);
-        itemStack.setItemMeta(this.itemMeta);
+        if (this.meta == null) {
+            meta = item.getItemMeta();
+        } else {
+            meta = this.meta;
+        }
 
-        return itemStack;
+        if (meta != null) {
+            if (getDisplayName() != null) {
+                meta.setDisplayName(new ColouredString(getDisplayName()).toString());
+            }
+
+            if (this.getLore() != null) {
+                meta.setLore(Arrays.stream(this.getLore())
+                        .map(string -> new ColouredString(string).toString())
+                        .collect(Collectors.toList())
+                );
+            }
+
+            item.setItemMeta(meta);
+        }
+
+        return item;
     }
 
-    public void setIndex(int index) {
-        this.index = index;
+    public Button setDisplayName(final String displayName) {
+        this.displayName = displayName;
+        return this;
     }
 
-    public int getIndex() {
-        return this.index;
+    public Button setLore(final String[] lore) {
+        this.lore = lore;
+        return this;
     }
 
-    public Function<ClickType, Boolean> getClickAction() {
+    public Button setClickAction(final Consumer<InventoryClickEvent> clickAction) {
+        this.clickAction = clickAction;
+        return this;
+    }
+
+    public Button setAmount(final int amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public Button setData(final byte data) {
+        this.data = data;
+        return this;
+    }
+
+    public String getDisplayName() {
+        return this.displayName;
+    }
+
+    public String[] getLore() {
+        return this.lore;
+    }
+
+    public int getAmount() {
+        return this.amount;
+    }
+
+    public byte getData() {
+        return this.data;
+    }
+
+    public Consumer<InventoryClickEvent> getClickAction() {
         return this.clickAction;
+    }
+
+    public Material getMaterial() {
+        return this.material;
     }
 }

@@ -1,82 +1,147 @@
 package me.frost.commons.menus.menu;
 
-import me.frost.commons.builders.ItemBuilder;
+import me.frost.commons.colour.ColouredString;
 import me.frost.commons.menus.buttons.Button;
-import me.frost.commons.menus.buttons.NextButton;
-import me.frost.commons.menus.buttons.PreviousButton;
 import me.frost.commons.utils.support.XMaterial;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.inventory.InventoryClickEvent;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
 public abstract class PaginatedMenu extends Menu {
     private int page = 1;
-    private int maxPages;
-    private final List<Button> paginationButtons = new ArrayList<>();
+    private final int maxPages;
 
-    public PaginatedMenu(Player player, String title, int size, int maxPages) {
-        this(player, title, size);
+    private Button previousPageButton = new Button(XMaterial.matchXMaterial("BED").get().parseMaterial())
+            .setDisplayName(new ColouredString("&c&l<- PREVIOUS PAGE").toString())
+            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go back to the &fprevious page&7! ))").toString()).toArray(new String[0]));
+    private int previousButtonSlot = getSize() - 6;
+
+    private Button nextPageButton = new Button(XMaterial.matchXMaterial("BED").get().parseMaterial())
+            .setDisplayName(new ColouredString("&a&lNEXT PAGE ->").toString())
+            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go to the &fnext page&7! ))").toString()).toArray(new String[0]));
+    private int nextButtonSlot = getSize() - 4;
+
+    public PaginatedMenu(final Player player, final String title, final int size, final int maxPages) {
+        super(player, title, size);
 
         this.maxPages = maxPages;
+        this.buttons = new Button[size * maxPages];
     }
 
-    public PaginatedMenu(Player player, String title, int size) {
-        super(player, title, size + 9);
-
-        final ItemBuilder previousButton = new ItemBuilder(XMaterial.matchXMaterial("BED").get().parseMaterial(), 1)
-                .setName("&c&l<- PREVIOUS PAGE")
-                .setLore(" ", "&7(( Click to go back to the &fprevious page&7! ))");
-
-        paginationButtons.add(new PreviousButton(PaginatedMenu.this, 0, previousButton.build()));
-
-        final ItemBuilder nextButton = new ItemBuilder(XMaterial.matchXMaterial("BED").get().parseMaterial(), 1)
-                .setName("&a&lNEXT PAGE ->")
-                .setLore(" ", "&7(( Click to go to the &fnext page&7! ))");
-
-        paginationButtons.add(new NextButton(PaginatedMenu.this, 8, nextButton.build()));
+    public PaginatedMenu(final Player player, final String title, final int size) {
+        this(player, title, size, 16);
     }
 
-    public void setPaginationButtons(ItemStack previousButton, int pIndex, ItemStack nextButton, int nIndex) {
-        paginationButtons.clear();
+    public void navigatePrevious() {
+        setPage(Math.max(1, page - 1));
+        updateMenu();
+    }
 
-        paginationButtons.add(new PreviousButton(PaginatedMenu.this, pIndex, previousButton));
-        paginationButtons.add(new NextButton(PaginatedMenu.this, nIndex, nextButton));
+    public void navigateNext() {
+        page += 1;
+        updateMenu();
     }
 
     @Override
     public void updateMenu() {
-        this.updateMenu(getButtonsInRange());
+        this.updateMenu(getButtonsInRange(getButtons()));
     }
 
-    public List<Button> getButtonsInRange() {
-        final List<Button> buttons = getButtons().stream()
-                .filter(button -> button.getIndex() >= ((page - 1) * getSize()) && button.getIndex() < (page * getSize()) - 9)
-                .peek(button -> button.setIndex(button.getIndex() - ((getSize()) * (page - 1) - 9))).collect(Collectors.toList());
-        buttons.addAll(paginationButtons);
+    public Button[] getButtonsInRange(final Button[] buttons) {
+        final Button[] returningButtons = new Button[getSize()];
+
+        final int size = getSize();
+        final int localPage = getPage();
+
+        final int start = (localPage - 1) * size;
+        final int end = (start + size) - 1;
+
+        for (int i = 0; i < buttons.length; i++) {
+            final Button button = buttons[i];
+
+            if (button != null && i >= start && i <= end) {
+                returningButtons[i - ((size) * (localPage - 1))] = button;
+            }
+        }
+
+        final Button[] navigationButtons = getNavigationButtons();
+
+        for (int i = 0; i < navigationButtons.length; i++) {
+            final Button button = navigationButtons[i];
+
+            if (button != null) {
+                returningButtons[i] = button;
+            }
+        }
+
+        return returningButtons;
+    }
+
+    public Button[] getNavigationButtons() {
+        final Button[] buttons = new Button[getSize()];
+        buttons[previousButtonSlot] = getPreviousPageButton().setClickAction(event -> {
+            if (getMaxPages() < page) {
+                navigatePrevious();
+            }
+            event.setCancelled(true);
+        });
+
+        buttons[nextButtonSlot] = getNextPageButton().setClickAction(event -> {
+            if (getMaxPages() > page) {
+                navigateNext();
+            }
+            event.setCancelled(true);
+        });
 
         return buttons;
     }
 
     @Override
-    public boolean click(ClickType clickType, int index) {
-        final Optional<Button> button = getButtonsInRange().stream()
-                .filter(currentButton -> currentButton.getIndex() == index)
-                .findFirst();
+    public void click(final InventoryClickEvent event) {
+        try {
+            final Button[] buttons = this.getButtonsInRange(getButtons());
+            final Button button = buttons[event.getSlot()];
 
-        if (button.isPresent()) {
-            return button.get().getClickAction().apply(clickType);
+            if (button == null) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if (button.getClickAction() != null) {
+                button.getClickAction().accept(event);
+            }
+        } catch (final IndexOutOfBoundsException ignored) {
+            // Ignored exception
         }
-
-        return false;
     }
 
-    public void setPage(int page) {
+    public void setPage(final int page) {
         this.page = page;
+    }
+
+    public void setPreviousPageButton(final Button button) {
+        previousPageButton = button;
+    }
+
+    public void setNextPageButton(final Button button) {
+        nextPageButton = button;
+    }
+
+    public void setPreviousButtonSlot(final int slot) {
+        previousButtonSlot = slot;
+    }
+
+    public void setNextButtonSlot(final int slot) {
+        nextButtonSlot = slot;
+    }
+
+    public Button getPreviousPageButton() {
+        return previousPageButton;
+    }
+
+    public Button getNextPageButton() {
+        return nextPageButton;
     }
 
     public int getPage() {

@@ -2,7 +2,6 @@ package me.frost.commons.menus;
 
 import me.frost.commons.menus.listeners.ButtonListener;
 import me.frost.commons.menus.menu.Menu;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,18 +15,19 @@ public class MenuHandler {
     private static MenuHandler instance;
     private final Map<Player, Menu> menus = new HashMap<>();
 
-    public MenuHandler(JavaPlugin plugin) {
+    public MenuHandler(final JavaPlugin plugin) {
         instance = this;
 
-        Bukkit.getPluginManager().registerEvents(new ButtonListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new ButtonListener(), plugin);
+        // plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
     }
 
     public Map<Player, Menu> getMenus() {
-        return this.menus;
+        return menus;
     }
 
-    public Menu findMenu(Player player) {
-        return this.menus.get(player);
+    public Menu findMenu(final Player player) {
+        return menus.get(player);
     }
 
     public static MenuHandler getInstance() {

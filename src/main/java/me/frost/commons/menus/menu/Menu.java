@@ -1,19 +1,21 @@
 package me.frost.commons.menus.menu;
 
+import me.frost.commons.builders.ItemBuilder;
 import me.frost.commons.colour.ColouredString;
 import me.frost.commons.menus.MenuHandler;
 import me.frost.commons.menus.buttons.Button;
+import me.frost.commons.menus.buttons.FillingType;
+import me.frost.commons.utils.support.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public abstract class Menu {
     private final Player player;
@@ -21,34 +23,52 @@ public abstract class Menu {
     private final int size;
     private Inventory inventory;
 
-    private final List<Button> buttons = new ArrayList<>();
+    public Button[] buttons;
+
+    private ItemStack fillerItem;
+    private final List<FillingType> fillers = new ArrayList<>();
 
     public Menu(final Player player, final String title, final int size) {
         this.player = player;
         this.title = title;
         this.size = size;
+        this.fillerItem = new ItemBuilder(XMaterial.matchXMaterial("GRAY_STAINED_GLASS_PANE").get().parseItem()).setName(" ").build();
+
+        this.buttons = new Button[this.size];
 
         registerMenu();
     }
 
-    public abstract void onClose(InventoryCloseEvent event);
-
-    public void updateMenu(final List<Button> buttons) {
+    public void updateMenu(final Button[] buttons) {
         final Inventory inventory = this.inventory == null ? Bukkit.createInventory(null, getSize(), new ColouredString(getTitle()).toString()) : this.inventory;
 
         clearMenu(inventory);
 
-        buttons.stream()
-                .filter(button -> button != null && button.toItemStack() != null)
-                .forEach(button -> inventory.setItem(button.getIndex(), button.toItemStack()));
+        setup();
+
+        final Button[] fillerButtons = getFillerButtons();
+
+        for (int i = 0; i < fillerButtons.length; i++) {
+            if (fillerButtons[i] != null) {
+                this.buttons[i] = fillerButtons[i];
+            }
+        }
+
+        for (int i = 0; i < buttons.length; i++) {
+            if (buttons[i] != null) {
+                inventory.setItem(i, buttons[i].toItemStack());
+            }
+        }
 
         if (inventory != this.inventory) {
             this.inventory = inventory;
+
             player.closeInventory();
             player.openInventory(inventory);
         } else {
             player.updateInventory();
         }
+
 
         registerMenu();
     }
@@ -71,33 +91,61 @@ public abstract class Menu {
         MenuHandler.getInstance().getMenus().put(getPlayer(), this);
     }
 
-    public boolean click(final ClickType clickType, final int index) {
-        final Optional<Button> button = getButtons().stream()
-                .filter(current -> current.getIndex() == index)
-                .findFirst();
+    public abstract void setup();
 
-        if (button.isPresent() && button.get().getClickAction() != null) {
-            return button.get().getClickAction().apply(clickType);
-        }
-
-        return false;
+    public void redirect(final Menu menu) {
+        menu.updateMenu();
+        this.registerMenu();
     }
 
-    public void fillMenu(final ItemStack fillerItem) {
-        for (int i = 0; i < getSize(); i++) {
-            buttons.add(new Button(i, fillerItem));
+    public void click(final InventoryClickEvent event) {
+        try {
+            final Button button = buttons[event.getSlot()];
+
+            if (button == null) {
+                event.setCancelled(true);
+                return;
+            }
+
+            if (button.getClickAction() != null) {
+                button.getClickAction().accept(event);
+            }
+        } catch (final IndexOutOfBoundsException ignored) {
+            // Exception ignored
         }
     }
 
-    public void fillMenuBorder(final ItemStack fillerItem) {
-        for (int i = 0; i < getSize(); i++) {
-            if (i < 9 || i >= getSize() - 9 || i % 9 == 0 || i % 9 == 8) {
-                buttons.add(new Button(i, fillerItem));
+    public Menu setFillerItem(final ItemStack itemStack) {
+        this.fillerItem = itemStack;
+
+        return this;
+    }
+
+    public Button[] getFillerButtons() {
+        final Button[] buttons = new Button[getSize()];
+
+        for (final FillingType fillingType : fillers) {
+            final Button[] fillers = fillingType.fillMenu(this);
+
+            for (int i = 0; i < fillers.length; i++) {
+                if (fillers[i] != null) {
+                    this.buttons[i] = fillers[i];
+                }
             }
         }
+
+        return buttons;
     }
 
-    public List<Button> getButtons() {
+    public void handleClose(final InventoryCloseEvent event) {
+        MenuHandler.getInstance().getMenus().remove(event.getPlayer());
+    }
+
+    public void addFiller(final FillingType type) {
+        this.fillers.add(type);
+    }
+
+    public Button[] getButtons() {
         return this.buttons;
     }
 
@@ -115,5 +163,9 @@ public abstract class Menu {
 
     public Player getPlayer() {
         return this.player;
+    }
+
+    public ItemStack getFillerItem() {
+        return this.fillerItem;
     }
 }
