@@ -137,6 +137,10 @@ public abstract class Menu {
         return buttons;
     }
 
+    public void setButton(final int slot, final Button button) {
+        buttons[slot] = button;
+    }
+
     public void handleClose(final InventoryCloseEvent event) {
         MenuHandler.getInstance().getMenus().remove(event.getPlayer());
     }

@@ -126,7 +126,10 @@ public final class ReflectionUtils {
         GET_HANDLE = getHandle;
     }
 
-    private ReflectionUtils() {}
+    // Private constructor to stop instantiation
+    private ReflectionUtils() {
+        throw new UnsupportedOperationException("ReflectionUtils is a utility class and cannot be instantiated!");
+    }
 
     /**
      * This method is purely for readability.

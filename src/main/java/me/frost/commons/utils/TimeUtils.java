@@ -1,9 +1,10 @@
 package me.frost.commons.utils;
 
-public class TimeUtil {
+public class TimeUtils {
 
     // Private constructor to prevent instantiation of utility class
-    private TimeUtil() {
+    private TimeUtils() {
+        throw new UnsupportedOperationException("TimeUtils is a utility class and cannot be instantiated!");
     }
 
     public static String formatTime(final long milliseconds) {

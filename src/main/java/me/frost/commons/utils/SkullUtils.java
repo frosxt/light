@@ -75,6 +75,11 @@ public class SkullUtils {
      */
     private static final String TEXTURES = "https://textures.minecraft.net/texture/";
 
+    // Private constructor to stop instantiation
+    private SkullUtils() {
+        throw new UnsupportedOperationException("SkullUtils is a utility class and cannot be instantiated!");
+    }
+
     static {
         final MethodHandles.Lookup lookup = MethodHandles.lookup();
         MethodHandle profileSetter = null;

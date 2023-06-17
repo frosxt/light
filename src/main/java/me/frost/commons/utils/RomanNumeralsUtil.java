@@ -2,11 +2,12 @@ package me.frost.commons.utils;
 
 import java.util.TreeMap;
 
-public final class RomanNumeralUtil {
+public final class RomanNumeralsUtil {
     private static final TreeMap<Integer, String> map = new TreeMap<>();
 
     // Private constructor to prevent instantiation of utility class
-    private RomanNumeralUtil() {
+    private RomanNumeralsUtil() {
+        throw new UnsupportedOperationException("RomanNumeralsUtil is a utility class and cannot be instantiated!");
     }
 
     public static String convertToRomanNumeral(final int number) {

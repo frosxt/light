@@ -4,6 +4,7 @@ public final class NumberUtils {
 
     // Private constructor to prevent instantiation of utility class
     private NumberUtils() {
+        throw new UnsupportedOperationException("NumberUtils is a utility class and cannot be instantiated!");
     }
 
     public static boolean isDouble(final String args) {

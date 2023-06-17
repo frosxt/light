@@ -1,78 +1,59 @@
 package me.frost.commons.yaml;
 
+import com.google.common.io.Files;
+import lombok.Getter;
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Consumer;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  *
  * This class will be used to load a new config file
  */
 public abstract class SparkConfig {
-    private final String fileName;
-    private final String path;
-    private FileConfiguration config;
-    private final Consumer<FileConfiguration> writer;
+    @Getter
+    private final JavaPlugin plugin;
 
-    // Hashmap to store every config
-    protected Map<String, FileConfiguration> loadedConfigs = new HashMap<>();
+    @Getter
+    private final String fileName;
+
+    @Getter
+    private final String path;
+
+    @Getter
+    private FileConfiguration config;
+
+    private final File file;
 
     /**
      * @param fileName This is the name of the config file
      * @param path This is the path for the config file to load to
-     * @param writer This is what will be written to the file
      */
-    public SparkConfig(final String fileName, final String path, final Consumer<FileConfiguration> writer) {
+    public SparkConfig(final JavaPlugin plugin, final String fileName, final String path) {
+        this.plugin = plugin;
         this.fileName = fileName;
         this.path = path;
-        this.writer = writer;
+        this.file = new File(path + File.separator + fileName + ".yml");
     }
 
     /**
-     * @param plugin This is the JavaPlugin parameter
-     *
      * This method will load a new config file
      */
-    public void loadFile(final JavaPlugin plugin) {
-        final File file = new File(path, fileName);
+    public void loadFile() {
         if (!file.exists()) {
-            plugin.saveResource(fileName, false);
+            plugin.saveResource(fileName + ".yml", false);
         }
 
-        config = YamlConfiguration.loadConfiguration(file);
-        loadedConfigs.put(fileName, config);
-    }
-
-    public void write() {
-        writer.accept(loadedConfigs.get(fileName));
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public FileConfiguration getFileConfiguration() {
-        return loadedConfigs.get(fileName);
-    }
-
-    public Consumer<FileConfiguration> getWriter() {
-        return writer;
-    }
-
-    protected Map<String, FileConfiguration> getLoadedConfigs() {
-        return loadedConfigs;
-    }
-
-    public FileConfiguration getCurrentConfig() {
-        return this.config;
+        config = new YamlConfiguration();
+        try {
+            config.loadFromString(Files.toString(file, StandardCharsets.UTF_8));
+        } catch (final IOException | InvalidConfigurationException exception) {
+            exception.printStackTrace();
+        }
     }
 }

@@ -120,7 +120,10 @@ public final class ActionBar {
         PACKET_PLAY_OUT_CHAT = packet;
     }
 
-    private ActionBar() {}
+    // Private constructor to prevent instantiation
+    private ActionBar() {
+        throw new UnsupportedOperationException("ActionBar is a utility class and cannot be instantiated!");
+    }
 
     /**
      * Sends an action bar to a player.

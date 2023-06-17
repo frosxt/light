@@ -1,37 +1,24 @@
 package me.frost.commons.yaml;
 
-import org.bukkit.plugin.java.JavaPlugin;
-import org.reflections.Reflections;
+import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileManager {
-    private final JavaPlugin plugin;
-    private final Reflections reflections;
-
-    // plugin.getClass().getPackage().getName()
+    @Getter
+    private final Map<String, SparkConfig> loadedConfigs = new HashMap<>();
 
     /**
-     * This constructor will create a new instance of the FileManager class
-     * @param plugin The JavaPlugin instance retrieved from the main class (ClassName.getPlugin(ClassName.class))
-     */
-    public FileManager(JavaPlugin plugin) {
-        this.plugin = plugin;
-        this.reflections = new Reflections(plugin.getClass().getPackage().getName());
-    }
-
-    /**
-     * This method will scan the package for any classes that extend SparkConfig and load them
+     * This method will load any configs and store them in a HashMap to be referenced from
+     *
+     * @param sparkConfig An instance of the config class to be loaded
      *
      * @see SparkConfig
      */
-    public void loadConfigs() {
-        reflections.getSubTypesOf(SparkConfig.class).forEach(clazz -> {
-            try {
-                SparkConfig config = clazz.newInstance();
-                config.loadFile(plugin);
-                config.write();
-            } catch (InstantiationException | IllegalAccessException exception) {
-                exception.printStackTrace();
-            }
-        });
+    public void loadConfig(final SparkConfig sparkConfig) {
+        sparkConfig.loadFile();
+
+        loadedConfigs.put(sparkConfig.getFileName(), sparkConfig);
     }
 }
