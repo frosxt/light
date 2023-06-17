@@ -140,13 +140,14 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 ## Roadmap
 
+- [ ] Recode Menu Handler
 - [ ] NBTAPI (Supporting all versions)
 
 ## FAQ
 
 #### Who is this meant for?
 
-This is meant for developers to make the development of minecraft plugins easier. Server owners don't need to do anything with this except install it on servers which utilise this library.
+This is meant for developers to make the development of minecraft plugins easier. Server owners don't need to do anything with this except install it as a plugin on servers which utilise this library.
 
 #### Will this have x feature or support?
 
