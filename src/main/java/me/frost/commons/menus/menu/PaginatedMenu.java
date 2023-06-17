@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import java.util.Arrays;
+import java.util.Map;
 
 public abstract class PaginatedMenu extends Menu {
     private int page = 1;
@@ -21,6 +22,8 @@ public abstract class PaginatedMenu extends Menu {
             .setDisplayName(new ColouredString("&a&lNEXT PAGE ->").toString())
             .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go to the &fnext page&7! ))").toString()).toArray(new String[0]));
     private int nextButtonSlot = getSize() - 4;
+
+    private final Button[] stickyButtons = new Button[getSize()];
 
     public PaginatedMenu(final Player player, final String title, final int size, final int maxPages) {
         super(player, title, size);
@@ -75,15 +78,21 @@ public abstract class PaginatedMenu extends Menu {
             }
         }
 
+        for (int i = 0; i < stickyButtons.length; i++) {
+            final Button button = stickyButtons[i];
+
+            if (button != null) {
+                returningButtons[i] = button;
+            }
+        }
+
         return returningButtons;
     }
 
     public Button[] getNavigationButtons() {
         final Button[] buttons = new Button[getSize()];
         buttons[previousButtonSlot] = getPreviousPageButton().setClickAction(event -> {
-            if (getMaxPages() < page) {
-                navigatePrevious();
-            }
+            navigatePrevious();
             event.setCancelled(true);
         });
 
@@ -95,6 +104,14 @@ public abstract class PaginatedMenu extends Menu {
         });
 
         return buttons;
+    }
+
+    public void setStickyButtons(final Map<Integer, Button> buttonMap) {
+        buttonMap.forEach((slot, button) -> stickyButtons[slot] = button);
+    }
+
+    public Button[] getStickyButtons() {
+        return stickyButtons;
     }
 
     @Override
@@ -114,6 +131,11 @@ public abstract class PaginatedMenu extends Menu {
         } catch (final IndexOutOfBoundsException ignored) {
             // Ignored exception
         }
+    }
+
+    public void setButton(final int slot, final int page, final Button button) {
+        final int calculateSlot = (page * getSize()) - getSize() + slot;
+        buttons[calculateSlot] = button;
     }
 
     public void setPage(final int page) {
