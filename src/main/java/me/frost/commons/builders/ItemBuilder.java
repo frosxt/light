@@ -14,57 +14,58 @@ import java.util.Objects;
 public class ItemBuilder {
     private final ItemStack itemStack;
 
-    public ItemBuilder(Material material) {
+    public ItemBuilder(final Material material) {
         this(material, 1);
     }
 
-    public ItemBuilder(ItemStack itemStack) {
+    public ItemBuilder(final ItemStack itemStack) {
         this.itemStack = itemStack;
     }
 
-    public ItemBuilder(Material material, int amount) {
+    public ItemBuilder(final Material material, final int amount) {
         itemStack = new ItemStack(material, amount);
     }
 
-    public ItemBuilder(Material material, int amount, short data) {
+    public ItemBuilder(final Material material, final int amount, final short data) {
         itemStack = new ItemStack(material, amount, data);
     }
 
+    @Override
     public ItemBuilder clone() {
         return new ItemBuilder(itemStack);
     }
 
-    public ItemBuilder setData(short data) {
+    public ItemBuilder setData(final short data) {
         itemStack.setDurability(data);
         return this;
     }
 
-    public ItemBuilder setName(String name) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder setName(final String name) {
+        final ItemMeta meta = itemStack.getItemMeta();
         Objects.requireNonNull(meta).setDisplayName(new ColouredString(name).toString());
         itemStack.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder addUnsafeEnchantment(Enchantment enchantment, int level) {
+    public ItemBuilder addUnsafeEnchantment(final Enchantment enchantment, final int level) {
         itemStack.addUnsafeEnchantment(enchantment, level);
         return this;
     }
 
-    public ItemBuilder removeEnchantment(Enchantment enchantment) {
+    public ItemBuilder removeEnchantment(final Enchantment enchantment) {
         itemStack.removeEnchantment(enchantment);
         return this;
     }
 
-    public ItemBuilder addItemFlag(ItemFlag flag) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder addItemFlag(final ItemFlag flag) {
+        final ItemMeta meta = itemStack.getItemMeta();
         Objects.requireNonNull(meta).addItemFlags(flag);
         itemStack.setItemMeta(meta);
         return this;
     }
 
-    public ItemBuilder removeItemFlag(ItemFlag flag) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder removeItemFlag(final ItemFlag flag) {
+        final ItemMeta meta = itemStack.getItemMeta();
         if (Objects.requireNonNull(meta).hasItemFlag(flag)) {
             meta.removeItemFlags(flag);
             itemStack.setItemMeta(meta);
@@ -73,18 +74,18 @@ public class ItemBuilder {
     }
 
     public ItemBuilder setUnbreakable() {
-        ItemMeta meta = itemStack.getItemMeta();
+        final ItemMeta meta = itemStack.getItemMeta();
         Objects.requireNonNull(meta).setUnbreakable(true);
         itemStack.setItemMeta(meta);
         return this;
     }
 
 
-    public ItemBuilder setLore(String... lore) {
-        ItemMeta meta = itemStack.getItemMeta();
-        List<String> l = new ArrayList<>();
+    public ItemBuilder setLore(final String... lore) {
+        final ItemMeta meta = itemStack.getItemMeta();
+        final List<String> l = new ArrayList<>();
 
-        for (String string : lore) {
+        for (final String string : lore) {
             l.add(new ColouredString(string).toString());
         }
 
@@ -93,10 +94,10 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder setLore(List<String> lore) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder setLore(final List<String> lore) {
+        final ItemMeta meta = itemStack.getItemMeta();
 
-        List<String> l = new ArrayList<>();
+        final List<String> l = new ArrayList<>();
         lore.forEach(string -> l.add(new ColouredString(string).toString()));
 
         Objects.requireNonNull(meta).setLore(l);
@@ -105,8 +106,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeLoreLine(String line) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder removeLoreLine(final String line) {
+        final ItemMeta meta = itemStack.getItemMeta();
 
         List<String> lore = new ArrayList<>();
         if (Objects.requireNonNull(meta).hasLore()) {
@@ -122,8 +123,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder removeLoreLine(int index) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder removeLoreLine(final int index) {
+        final ItemMeta meta = itemStack.getItemMeta();
 
         List<String> lore = new ArrayList<>();
         if (Objects.requireNonNull(meta).hasLore()) {
@@ -139,8 +140,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addLoreLine(String line) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder addLoreLine(final String line) {
+        final ItemMeta meta = itemStack.getItemMeta();
 
         List<String> lore = new ArrayList<>();
         if (Objects.requireNonNull(meta).hasLore()) {
@@ -153,8 +154,8 @@ public class ItemBuilder {
         return this;
     }
 
-    public ItemBuilder addLoreLine(String line, int lineNumber) {
-        ItemMeta meta = itemStack.getItemMeta();
+    public ItemBuilder addLoreLine(final String line, final int lineNumber) {
+        final ItemMeta meta = itemStack.getItemMeta();
 
         List<String> lore = new ArrayList<>();
         if (Objects.requireNonNull(meta).hasLore()) {
@@ -167,6 +168,24 @@ public class ItemBuilder {
         return this;
     }
 
+    public ItemBuilder parsePlaceholders(final PlaceholderBuilder placeholderBuilder) {
+        final ItemMeta meta = itemStack.getItemMeta();
+
+        final String newName = placeholderBuilder.parse(meta.getDisplayName());
+        Objects.requireNonNull(meta).setDisplayName(new ColouredString(newName).toString());
+
+        final List<String> parsedLore = new ArrayList<>();
+        for (final String lore : Objects.requireNonNull(meta.getLore())) {
+            final String line = placeholderBuilder.parse(lore);
+            parsedLore.add(new ColouredString(line).toString());
+        }
+
+        meta.setLore(parsedLore);
+
+        itemStack.setItemMeta(meta);
+
+        return this;
+    }
 
     public ItemStack build() {
         return itemStack;

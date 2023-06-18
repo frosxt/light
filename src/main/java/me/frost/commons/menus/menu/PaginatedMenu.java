@@ -15,12 +15,22 @@ public abstract class PaginatedMenu extends Menu {
 
     private Button previousPageButton = new Button(XMaterial.matchXMaterial("BED").get().parseMaterial())
             .setDisplayName(new ColouredString("&c&l<- PREVIOUS PAGE").toString())
-            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go back to the &fprevious page&7! ))").toString()).toArray(new String[0]));
+            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go back to the &fprevious page&7! ))").toString()).toArray(new String[0]))
+            .setClickAction(event -> {
+                navigatePrevious();
+                event.setCancelled(true);
+            });
     private int previousButtonSlot = getSize() - 6;
 
     private Button nextPageButton = new Button(XMaterial.matchXMaterial("BED").get().parseMaterial())
             .setDisplayName(new ColouredString("&a&lNEXT PAGE ->").toString())
-            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go to the &fnext page&7! ))").toString()).toArray(new String[0]));
+            .setLore(Arrays.asList(" ", new ColouredString("&7(( Click to go to the &fnext page&7! ))").toString()).toArray(new String[0]))
+            .setClickAction(event -> {
+                if (getMaxPages() > page) {
+                    navigateNext();
+                }
+                event.setCancelled(true);
+            });
     private int nextButtonSlot = getSize() - 4;
 
     private final Button[] stickyButtons = new Button[getSize()];
@@ -91,17 +101,9 @@ public abstract class PaginatedMenu extends Menu {
 
     public Button[] getNavigationButtons() {
         final Button[] buttons = new Button[getSize()];
-        buttons[previousButtonSlot] = getPreviousPageButton().setClickAction(event -> {
-            navigatePrevious();
-            event.setCancelled(true);
-        });
 
-        buttons[nextButtonSlot] = getNextPageButton().setClickAction(event -> {
-            if (getMaxPages() > page) {
-                navigateNext();
-            }
-            event.setCancelled(true);
-        });
+        buttons[previousButtonSlot] = getPreviousPageButton();
+        buttons[nextButtonSlot] = getNextPageButton();
 
         return buttons;
     }
@@ -133,6 +135,12 @@ public abstract class PaginatedMenu extends Menu {
         }
     }
 
+    /**
+     * Sets a button in a specific slot on a specific page
+     * @param slot The slot the button will be placed in
+     * @param page The page the button will be placed in
+     * @param button The button that will be placed
+     */
     public void setButton(final int slot, final int page, final Button button) {
         final int calculateSlot = (page * getSize()) - getSize() + slot;
         buttons[calculateSlot] = button;
@@ -142,18 +150,36 @@ public abstract class PaginatedMenu extends Menu {
         this.page = page;
     }
 
+    /**
+     * Changes the previous page button
+     * Make sure when changing this you provide a click action that will change the page - the navigatePrevious() method will allow you to do this simply
+     * @param button The button which this will be set to
+     */
     public void setPreviousPageButton(final Button button) {
         previousPageButton = button;
     }
 
+    /**
+     * Changes the next page button
+     * Make sure when changing this you provide a click action that will change the page - the navigateNext() method will allow you to do this simply
+     * @param button The button which this will be set to
+     */
     public void setNextPageButton(final Button button) {
         nextPageButton = button;
     }
 
+    /**
+     * Changes the previous button slot
+     * @param slot The slot in which the button will be placed
+     */
     public void setPreviousButtonSlot(final int slot) {
         previousButtonSlot = slot;
     }
 
+    /**
+     * Changes the next button slot
+     * @param slot The slot in which the button will be placed
+     */
     public void setNextButtonSlot(final int slot) {
         nextButtonSlot = slot;
     }

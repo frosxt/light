@@ -2,9 +2,12 @@ package me.frost.commons.yaml;
 
 import com.google.common.io.Files;
 import lombok.Getter;
+import me.frost.commons.builders.ItemBuilder;
+import me.frost.commons.utils.support.XMaterial;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -55,5 +58,14 @@ public abstract class SparkConfig {
         } catch (final IOException | InvalidConfigurationException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public ItemStack getItemStackFromConfig(final String path) {
+        final ItemBuilder itemBuilder = new ItemBuilder(XMaterial.matchXMaterial(config.getString(path + ".material")).get().parseMaterial())
+                .setName(config.getString(path + ".name"))
+                .setLore(config.getStringList(path + ".lore"))
+                .setData((short) config.getInt(path + ".data"));
+
+        return itemBuilder.build();
     }
 }

@@ -92,7 +92,7 @@ public class Message {
 
         if (messageEnabled) {
             for (final String line : message) {
-                commandSender.sendMessage(new ColouredString(placeholderBuilder.parse(line)).toString());
+                commandSender.sendMessage(placeholderBuilder.parse(new ColouredString(line).toString()));
             }
         }
 

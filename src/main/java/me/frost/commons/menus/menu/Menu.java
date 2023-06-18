@@ -1,5 +1,6 @@
 package me.frost.commons.menus.menu;
 
+import me.frost.commons.SparkCommons;
 import me.frost.commons.builders.ItemBuilder;
 import me.frost.commons.colour.ColouredString;
 import me.frost.commons.menus.MenuHandler;
@@ -139,6 +140,11 @@ public abstract class Menu {
 
     public void setButton(final int slot, final Button button) {
         buttons[slot] = button;
+    }
+
+    public void setTemporaryButton(final int slot, final Button button, final int seconds) {
+        inventory.setItem(slot, button.toItemStack());
+        Bukkit.getScheduler().runTaskLater(SparkCommons.getPlugin(SparkCommons.class), () -> updateMenu(), seconds * 20L);
     }
 
     public void handleClose(final InventoryCloseEvent event) {

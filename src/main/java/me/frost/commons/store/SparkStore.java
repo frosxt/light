@@ -2,12 +2,10 @@ package me.frost.commons.store;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 /**
  *
@@ -19,14 +17,19 @@ import java.io.IOException;
 public class SparkStore<F extends File> {
     private final Gson gson;
     private final F file;
-    private final JsonObject loaded;
-    private final JsonObject loader;
 
-    public SparkStore(F file) {
-        this.gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+    public SparkStore(final F file) throws FileNotFoundException, UnsupportedEncodingException {
+        this.gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().excludeFieldsWithoutExposeAnnotation().create();
         this.file = file;
-        this.loaded = new JsonObject();
-        this.loader = new JsonObject();
+
+        if (!file.exists()) {
+            final PrintWriter printWriter = new PrintWriter(file, "UTF-8");
+
+            printWriter.print("{");
+            printWriter.print("}");
+            printWriter.flush();
+            printWriter.close();
+        }
     }
 
     public Gson getGson() {
@@ -37,38 +40,25 @@ public class SparkStore<F extends File> {
         return file;
     }
 
-    public JsonObject getLoaded() {
-        return loaded;
-    }
-
-    public JsonObject getLoader() {
-        return loader;
-    }
-
     /**
-     * @param savedAs The name of the object you want to get
-     * @return The object you want to get
+     *
+     * @param file The file you want to retrieve data from
+     * @return A JsonObject of the data
      */
-    public JsonElement getObject(String savedAs) {
-        return getLoaded().get(savedAs);
+    public JsonObject getObject(final File file) throws FileNotFoundException, UnsupportedEncodingException {
+        return new JsonParser().parse(new InputStreamReader(new FileInputStream(file), "UTF-8")).getAsJsonObject();
     }
 
     /**
      * @param object The object you want to save
-     * @param saveAs The name that you want the object to save as
      *
      * Saves an object to a JSON File
      */
-    public void saveObject(JsonObject object, String saveAs) {
-        getLoader().add(saveAs, object);
-        getLoaded().add("spark-store", getLoader());
-
-        try (FileWriter writer = new FileWriter(getFile())) {
-            getFile().delete();
-            getFile().createNewFile();
-
-            writer.write(getGson().toJson(getLoaded()));
-        } catch (IOException exception) {
+    public void saveObject(final JsonObject object) {
+        try (final FileWriter writer = new FileWriter(getFile())) {
+            writer.write(getGson().toJson(object));
+            writer.flush();
+        } catch (final IOException exception) {
             exception.printStackTrace();
         }
     }
