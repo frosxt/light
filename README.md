@@ -129,18 +129,23 @@ public class ExamplePagedMenu extends PaginatedMenu {
     
     @Override
     public void setup() {
+        setTitle("&8&lEXAMPLE PAGINATED MENU")
+        setFillerItem(new ItemBuilder(...).build());
+        addFiller(FillingType.EMPTY_SLOTS);
+      
         for (int i = 0; i < 27; i++) {
             buttons[i] = new Button(XMaterial.matchXMaterial("COMPASS").get().parseMaterial())
                     .setDisplayName("&eSlot: " + i)
                     .setClickAction(event -> event.setCancelled(true));
         }
+
+        setButton(slot, page, new Button(...));
     }
 }
 ```
 
 ## Roadmap
 
-- [ ] Recode Menu Handler
 - [ ] NBTAPI (Supporting all versions)
 
 ## FAQ
