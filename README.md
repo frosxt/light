@@ -95,26 +95,26 @@ SparkCommons is run alongside another plugin which utilises this library. Any pl
 #### Maven (pom.xml)
 ```maven
 <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
+    <repository>
+        <id>jitpack.io</id>
+	<url>https://jitpack.io</url>
+    </repository>
 </repositories>
 
 <dependency>
-	    <groupId>com.github.frosxt</groupId>
-	    <artifactId>SparkCommons</artifactId>
-	    <version>Tag</version>
+    <groupId>com.github.frosxt</groupId>
+    <artifactId>SparkCommons</artifactId>
+    <version>Tag</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
 ```gradle
 repositories {
-		maven { url 'https://jitpack.io' }
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
-	  implementation 'com.github.frosxt:SparkCommons:Tag'
+    implementation 'com.github.frosxt:SparkCommons:Tag'
 }
 ```
 #### Examples
