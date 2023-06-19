@@ -94,18 +94,27 @@ SparkCommons is run alongside another plugin which utilises this library. Any pl
 
 #### Maven (pom.xml)
 ```maven
+<repositories>
+    <repository>
+        <id>jitpack.io</id>
+	<url>https://jitpack.io</url>
+    </repository>
+</repositories>
+
 <dependency>
-    <groupId>me.frost</groupId>
-    <artifactId>commons</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <scope>system</scope>
-    <systemPath>PUT PATH TO JAR FILE HERE</systemPath>
+    <groupId>com.github.frosxt</groupId>
+    <artifactId>SparkCommons</artifactId>
+    <version>Tag</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
 ```gradle
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
 dependencies {
-    implementation(files("PATH TO FILE"))
+    implementation 'com.github.frosxt:SparkCommons:Tag'
 }
 ```
 #### Examples
@@ -129,18 +138,23 @@ public class ExamplePagedMenu extends PaginatedMenu {
     
     @Override
     public void setup() {
+        setTitle("&8&lEXAMPLE PAGINATED MENU")
+        setFillerItem(new ItemBuilder(...).build());
+        addFiller(FillingType.EMPTY_SLOTS);
+      
         for (int i = 0; i < 27; i++) {
             buttons[i] = new Button(XMaterial.matchXMaterial("COMPASS").get().parseMaterial())
                     .setDisplayName("&eSlot: " + i)
                     .setClickAction(event -> event.setCancelled(true));
         }
+
+        setButton(slot, page, new Button(...));
     }
 }
 ```
 
 ## Roadmap
 
-- [ ] Recode Menu Handler
 - [ ] NBTAPI (Supporting all versions)
 
 ## FAQ
