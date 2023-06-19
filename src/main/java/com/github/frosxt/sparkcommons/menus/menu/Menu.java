@@ -1,6 +1,5 @@
 package com.github.frosxt.sparkcommons.menus.menu;
 
-import com.github.frosxt.sparkcommons.SparkCommons;
 import com.github.frosxt.sparkcommons.builders.ItemBuilder;
 import com.github.frosxt.sparkcommons.colour.ColouredString;
 import com.github.frosxt.sparkcommons.menus.MenuHandler;
@@ -14,6 +13,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,9 +142,9 @@ public abstract class Menu {
         buttons[slot] = button;
     }
 
-    public void setTemporaryButton(final int slot, final Button button, final int seconds) {
+    public void setTemporaryButton(final JavaPlugin plugin, final int slot, final Button button, final int seconds) {
         inventory.setItem(slot, button.toItemStack());
-        Bukkit.getScheduler().runTaskLater(SparkCommons.getPlugin(SparkCommons.class), () -> updateMenu(), seconds * 20L);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> updateMenu(), seconds * 20L);
     }
 
     public void handleClose(final InventoryCloseEvent event) {

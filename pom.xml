@@ -20,14 +20,6 @@
         </license>
     </licenses>
 
-    <developers>
-        <developer>
-            <name>frosxt</name>
-            <email>yermawisfat2@gmail.com</email>
-            <organizationUrl>https://github.com/frosxt</organizationUrl>
-        </developer>
-    </developers>
-
     <scm>
         <connection>scm:git:git://github.com/frosxt/ossrh-demo.git</connection>
         <developerConnection>scm:git:ssh://github.com:frosxt/ossrh-demo.git</developerConnection>
