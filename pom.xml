@@ -6,7 +6,7 @@
 
     <groupId>com.github.frosxt</groupId>
     <artifactId>SparkCommons</artifactId>
-    <version>1.4</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
 
     <name>SparkCommons</name>
