@@ -21,7 +21,7 @@ package com.github.frosxt.sparkcommons.commands;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class SubCommand {
@@ -44,7 +44,7 @@ public abstract class SubCommand {
     public abstract void onCommand(CommandSender commandSender, String[] arguments);
 
     public List<String> onTabComplete(final CommandSender commandSender, final String[] arguments) {
-        return Arrays.asList(" ");
+        return Collections.singletonList(" ");
     }
 
     public String getName() {
