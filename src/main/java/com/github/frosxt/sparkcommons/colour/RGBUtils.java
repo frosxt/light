@@ -3,11 +3,9 @@ package com.github.frosxt.sparkcommons.colour;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
+/*
  * Written by <a href="https://github.com/CoasterFreakDE">
  * CoasterFreakDE &lt;https://github.com/CoasterFreakDE&gt;</a>
- *
- * @author CoasterFreakDE
  */
 public final class RGBUtils {
     private static RGBUtils instance;

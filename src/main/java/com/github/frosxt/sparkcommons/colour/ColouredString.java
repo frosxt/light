@@ -4,6 +4,10 @@ import com.github.frosxt.sparkcommons.colour.enums.ColourType;
 import com.github.frosxt.sparkcommons.services.LegacyCheckService;
 import org.bukkit.ChatColor;
 
+/*
+ * Written by <a href="https://github.com/CoasterFreakDE">
+ * CoasterFreakDE &lt;https://github.com/CoasterFreakDE&gt;</a>
+ */
 public class ColouredString {
     private final ColourType type;
     private final String text;

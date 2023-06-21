@@ -3,6 +3,10 @@ package com.github.frosxt.sparkcommons.services;
 import com.github.frosxt.sparkcommons.utils.StringUtils;
 import org.bukkit.Bukkit;
 
+/*
+ * Written by <a href="https://github.com/CoasterFreakDE">
+ * CoasterFreakDE &lt;https://github.com/CoasterFreakDE&gt;</a>
+ */
 public class LegacyCheckService {
     private final String version = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3].substring(1);
 

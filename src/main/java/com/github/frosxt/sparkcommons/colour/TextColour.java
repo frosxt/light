@@ -1,10 +1,8 @@
 package com.github.frosxt.sparkcommons.colour;
 
-/**
+/*
  * Written by <a href="https://github.com/CoasterFreakDE">
  * CoasterFreakDE &lt;https://github.com/CoasterFreakDE&gt;</a>
- *
- * @author CoasterFreakDE
  */
 public final class TextColour {
     private final int red;
