@@ -13,20 +13,6 @@
     <description>A commons library built for Spigot Plugin Development</description>
     <url>https://github.com/frosxt/SparkCommons</url>
 
-    <licenses>
-        <license>
-            <name>MIT License</name>
-            <url>http://www.opensource.org/licenses/mit-license.php</url>
-        </license>
-    </licenses>
-
-    <scm>
-        <connection>scm:git:git://github.com/frosxt/ossrh-demo.git</connection>
-        <developerConnection>scm:git:ssh://github.com:frosxt/ossrh-demo.git</developerConnection>
-        <url>http://https://github.com/frosxt/SparkCommons/tree/master</url>
-    </scm>
-
-
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
