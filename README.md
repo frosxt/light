@@ -104,7 +104,7 @@ SparkCommons is run alongside another plugin which utilises this library. Any pl
 <dependency>
     <groupId>com.github.frosxt</groupId>
     <artifactId>SparkCommons</artifactId>
-    <version>Tag</version>
+    <version>v1.4.3</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
@@ -114,7 +114,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.frosxt:SparkCommons:Tag'
+    implementation 'com.github.frosxt:SparkCommons:v1.4.3'
 }
 ```
 #### Examples
