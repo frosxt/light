@@ -31,8 +31,13 @@ public abstract class AbstractCommand extends Command implements ArgumentParser 
         CommandHandler.registerCommand(this);
     }
 
-    public void unRegister() {
+    public void unregister() {
         CommandHandler.unregisterCommand(this);
+    }
+
+    @Override
+    public boolean isRegistered() {
+        return CommandHandler.getKnownCommands().containsKey(getName());
     }
 
     @Override

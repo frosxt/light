@@ -6,6 +6,7 @@ import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.SimplePluginManager;
 
 import java.lang.reflect.Field;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class CommandHandler {
         }
         catch (final Exception e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyMap();
         }
     }
 
