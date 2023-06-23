@@ -78,6 +78,14 @@ public abstract class SparkConfig {
         }
     }
 
+    public void save() {
+        try {
+            config.save(file);
+        } catch (final IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     public ItemStack getItemStackFromConfig(final String path) {
         final ItemBuilder itemBuilder = new ItemBuilder(XMaterial.matchXMaterial(config.getString(path + ".material")).get().parseMaterial())
                 .setName(config.getString(path + ".name"))

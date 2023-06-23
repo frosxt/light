@@ -62,14 +62,14 @@ public class Message {
         this.volume = config.getLong(path + ".sound.volume", 1);
         this.pitch = config.getLong(path + ".sound.pitch", 1);
 
-        this.titleEnabled = config.getBoolean(path + ".title.enabled", true);
+        this.titleEnabled = config.getBoolean(path + ".title.enabled", false);
         this.title = new ColouredString(config.getString(path + ".title.title", "")).toString();
         this.subtitle = new ColouredString(config.getString(path + ".title.subtitle", "")).toString();
         this.fadeInTicks = config.getInt(path + ".title.fade-in-ticks", 20);
         this.stayTicks = config.getInt(path + ".title.stay-ticks", 20);
         this.fadeOutTicks = config.getInt(path + ".title.fade-out-ticks", 20);
 
-        this.actionBarEnabled = config.getBoolean(path + ".actionbar.enabled", true);
+        this.actionBarEnabled = config.getBoolean(path + ".actionbar.enabled", false);
         this.actionBar = new ColouredString(config.getString(path + ".actionbar.actionbar", "")).toString();
         this.barDuration = config.getInt(path + ".actionbar.duration", 40);
 
@@ -85,14 +85,14 @@ public class Message {
         this.volume = config.getLong(path + ".sound.volume", 1);
         this.pitch = config.getLong(path + ".sound.pitch", 1);
 
-        this.titleEnabled = config.getBoolean(path + ".title.enabled", true);
+        this.titleEnabled = config.getBoolean(path + ".title.enabled", false);
         this.title = new ColouredString(config.getString(path + ".title.title", "")).toString();
         this.subtitle = new ColouredString(config.getString(path + ".title.subtitle", "")).toString();
         this.fadeInTicks = config.getInt(path + ".title.fade-in-ticks", 20);
         this.stayTicks = config.getInt(path + ".title.stay-ticks", 20);
         this.fadeOutTicks = config.getInt(path + ".title.fade-out-ticks", 20);
 
-        this.actionBarEnabled = config.getBoolean(path + ".actionbar.enabled", true);
+        this.actionBarEnabled = config.getBoolean(path + ".actionbar.enabled", false);
         this.actionBar = new ColouredString(config.getString(path + ".actionbar.actionbar", "")).toString();
         this.barDuration = config.getInt(path + ".actionbar.duration", 40);
 
