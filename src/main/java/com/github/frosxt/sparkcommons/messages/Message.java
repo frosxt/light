@@ -69,7 +69,7 @@ public class Message {
         this.stayTicks = config.getInt(path + ".title.stay-ticks", 20);
         this.fadeOutTicks = config.getInt(path + ".title.fade-out-ticks", 20);
 
-        this.actionBarEnabled = config.getBoolean(path + ",actionbar.enabled", true);
+        this.actionBarEnabled = config.getBoolean(path + ".actionbar.enabled", true);
         this.actionBar = new ColouredString(config.getString(path + ".actionbar.actionbar", "")).toString();
         this.barDuration = config.getInt(path + ".actionbar.duration", 40);
 
