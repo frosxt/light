@@ -1,5 +1,5 @@
 name: SparkCommons
 version: '${project.version}'
-main: com.github.frosxt.sparkcommons.SparkCommons
+main: com.github.frosxt.Light
 api-version: 1.19
 authors: [ frost ]
