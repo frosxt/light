@@ -30,10 +30,8 @@ public enum FillingType {
             final Button[] buttons = new Button[menu.getButtons().length];
 
             for (int i = 0; i < menu.getButtons().length; i++) {
-                if (i < 9 || i >= menu.getButtons().length - 9 || i % 9 == 0 || i % 9 == 8) {
-                    if (menu.buttons[i] == null) {
-                        buttons[i] = new Button(menu.getFillerItem()).setClickAction(event -> event.setCancelled(true));
-                    }
+                if (i < 9 || i >= menu.getButtons().length - 9 || i % 9 == 0 || i % 9 == 8 && (menu.buttons[i] == null)) {
+                    buttons[i] = new Button(menu.getFillerItem()).setClickAction(event -> event.setCancelled(true));
                 }
             }
 

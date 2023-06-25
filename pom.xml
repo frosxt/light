@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.frosxt</groupId>
-    <artifactId>Light</artifactId>
+    <artifactId>light</artifactId>
     <version>1.4.5</version>
     <packaging>jar</packaging>
 
-    <name>Light</name>
+    <name>light</name>
     <description>A library built for Spigot Plugin Development</description>
     <url>https://github.com/frosxt/light</url>
 

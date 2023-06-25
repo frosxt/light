@@ -31,6 +31,10 @@ public class TimeUtils {
         final long minutes = milliseconds / 1000L / 60L - days * 24L * 60L - hours * 60L;
         final long seconds = milliseconds / 1000L - days * 24L * 60L * 60L - hours * 60L * 60L - minutes * 60L;
 
+        return getString(days, hours, minutes, seconds);
+    }
+
+    private static String getString(final long days, final long hours, final long minutes, final long seconds) {
         final StringBuilder sb = new StringBuilder();
 
         if (days >= 1L) {
