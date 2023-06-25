@@ -6,23 +6,23 @@
 
 <br/>
 <div align="center">
-<h3 align="center">SparkCommons</h3>
+<h3 align="center">light</h3>
 
-  <a href="https://github.com/frosxt/SparkCommons">
+  <a href="https://github.com/frosxt/light">
     <img src="https://cdn.discordapp.com/attachments/560497603289153542/1091406068074172538/ETERNAL_DEVELOPMENT_NEW_-_PURPLE_ABSTRACT.png" alt="Logo" width="682.5" height="383.5">
   </a>
 
   <p align="center">
-    Eternal Development Commons Library
+    A library to ease and speed up Spigot Plugin Development
     <br />
     <br />
-    <a href="https://github.com/frosxt/SparkCommons/issues">Report Bug</a>
+    <a href="https://github.com/frosxt/light/issues">Report Bug</a>
     ·
-    <a href="https://github.com/frosxt/SparkCommons/issues">Request Feature</a>
+    <a href="https://github.com/frosxt/light/issues">Request Feature</a>
   </p>
 </div>
 
-[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7&v=2) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b3d0d7dc9fc8471fbf1810596106b4ae)](https://app.codacy.com/gh/frosxt/SparkCommons/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+[![Downloads][downloads-shield]][downloads-url] [![Last Commit][commits-shield]][commits-url] [![wakatime](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7.svg)](https://wakatime.com/badge/user/43415694-efe0-4a8e-b57c-ce409e69d660/project/d1e0e9c7-cd4f-47c5-bd26-4c95a1d226b7&v=2) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/b3d0d7dc9fc8471fbf1810596106b4ae)](https://app.codacy.com/gh/frosxt/light/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 <details>
   <summary>Table of Contents</summary>
@@ -51,19 +51,19 @@
   </ol>
 </details>
 
-[contributors-shield]: https://img.shields.io/github/contributors/frosxt/SparkCommons.svg?style=for-the-badge
-[contributors-url]: https://github.com/frosxt/SparkCommons/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/frosxt/SparkCommons.svg?style=for-the-badge
-[forks-url]: https://github.com/frosxt/SparkCommons/network/members
-[stars-shield]: https://img.shields.io/github/stars/frosxt/SparkCommons.svg?style=for-the-badge
-[stars-url]: https://github.com/frosxt/SparkCommons/stargazers
-[issues-shield]: https://img.shields.io/github/issues/frosxt/SparkCommons.svg?style=for-the-badge
-[issues-url]: https://github.com/frosxt/SparkCommons/issues
-[downloads-shield]: https://img.shields.io/github/downloads/frosxt/SparkCommons/total
-[downloads-url]: https://github.com/frosxt/SparkCommons/releases
-[commits-shield]: https://img.shields.io/github/last-commit/frosxt/SparkCommons
+[contributors-shield]: https://img.shields.io/github/contributors/frosxt/light.svg?style=for-the-badge
+[contributors-url]: https://github.com/frosxt/light/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/frosxt/light.svg?style=for-the-badge
+[forks-url]: https://github.com/frosxt/light/network/members
+[stars-shield]: https://img.shields.io/github/stars/frosxt/light.svg?style=for-the-badge
+[stars-url]: https://github.com/frosxt/light/stargazers
+[issues-shield]: https://img.shields.io/github/issues/frosxt/light.svg?style=for-the-badge
+[issues-url]: https://github.com/frosxt/light/issues
+[downloads-shield]: https://img.shields.io/github/downloads/frosxt/light/total
+[downloads-url]: https://github.com/frosxt/light/releases
+[commits-shield]: https://img.shields.io/github/last-commit/frosxt/light
 [commits-url]: https://github.com/frosxt/commits/master
-# SparkCommons
+# light
 
 A library designed to help develop spigot plugins and eliminate redudant code within a project, and across projects. Aims to speed up the development of new projects by removing repetition. Designed to be optimised and  as minimal as possible on performance. Supports minecraft versions from 1.8 to the latest.
 
@@ -90,7 +90,7 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 
 
 ## Usage
-SparkCommons is run alongside another plugin which utilises this library. Any plugin can utilise this library by adding it as a dependency to your project.
+Light is run alongside another plugin which utilises this library. Any plugin can utilise this library by adding it as a dependency to your project.
 
 #### Maven (pom.xml)
 ```maven
@@ -103,8 +103,8 @@ SparkCommons is run alongside another plugin which utilises this library. Any pl
 
 <dependency>
     <groupId>com.github.frosxt</groupId>
-    <artifactId>SparkCommons</artifactId>
-    <version>v1.4.3</version>
+    <artifactId>light</artifactId>
+    <version>v1.4.5</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
@@ -114,7 +114,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.frosxt:SparkCommons:v1.4.3'
+    implementation 'com.github.frosxt:light:v1.4.5'
 }
 ```
 #### Examples
