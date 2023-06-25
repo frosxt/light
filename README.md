@@ -8,12 +8,8 @@
 <div align="center">
 <h3 align="center">light</h3>
 
-  <a href="https://github.com/frosxt/light">
-    <img src="https://cdn.discordapp.com/attachments/560497603289153542/1091406068074172538/ETERNAL_DEVELOPMENT_NEW_-_PURPLE_ABSTRACT.png" alt="Logo" width="682.5" height="383.5">
-  </a>
-
   <p align="center">
-    A library to ease and speed up Spigot Plugin Development
+    A library to ease and speed up spigot plugin development
     <br />
     <br />
     <a href="https://github.com/frosxt/light/issues">Report Bug</a>
