@@ -176,7 +176,7 @@ This library is designed to be as optimised as possible and provide the most cos
 
 ## Support
 
-For support, you can message me privately on discord @ muhammad#4616.
+For support, you can message me privately on discord @ muhammad#4616 or open an issue.
 
 
 ## Acknowledgements
