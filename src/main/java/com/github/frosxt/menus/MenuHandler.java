@@ -37,7 +37,6 @@ public class MenuHandler {
         instance = this;
 
         plugin.getServer().getPluginManager().registerEvents(new ButtonListener(), plugin);
-        // plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
     }
 
     public Map<Player, Menu> getMenus() {
