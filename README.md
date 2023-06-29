@@ -151,7 +151,7 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 ## Roadmap
 
-- [ ] Database Management supporting MySQL, MongoDB and Redis
+- [ ] Database Management (MySQL, MongoDB and Redis)
 
 ## FAQ
 
