@@ -58,7 +58,7 @@
 [downloads-shield]: https://img.shields.io/github/downloads/frosxt/light/total
 [downloads-url]: https://github.com/frosxt/light/releases
 [commits-shield]: https://img.shields.io/github/last-commit/frosxt/light
-[commits-url]: https://github.com/frosxt/commits/master
+[commits-url]: https://github.com/frosxt/light/commits/master
 # light
 
 A library designed to help develop spigot plugins and eliminate redudant code within a project, and across projects. Aims to speed up the development of new projects by removing repetition. Designed to be optimised and  as minimal as possible on performance. Supports minecraft versions from 1.8 to the latest.
