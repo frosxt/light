@@ -2,6 +2,7 @@ package com.github.frosxt.database.mongo;
 
 import com.github.frosxt.database.DatabaseOption;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoCredential;
 import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoDatabase;
@@ -18,6 +19,7 @@ public abstract class MongoDatabaseOption implements DatabaseOption {
     private String password;
     private final String authenticationDatabase;
     private boolean authenticate;
+    private boolean sslEnabled;
 
     @Getter
     private MongoDatabase database;
@@ -27,7 +29,8 @@ public abstract class MongoDatabaseOption implements DatabaseOption {
                                final String username,
                                final String password,
                                final String authenticationDatabase,
-                               final boolean authenticate) {
+                               final boolean authenticate,
+                               final boolean sslEnabled) {
         this.hostname = hostname;
         this.port = port;
         this.username = username;
@@ -36,6 +39,7 @@ public abstract class MongoDatabaseOption implements DatabaseOption {
         if (!password.isEmpty()) {
             this.password = password;
             this.authenticate = true;
+            this.sslEnabled = sslEnabled;
         }
 
         setupDatabase();
@@ -47,7 +51,8 @@ public abstract class MongoDatabaseOption implements DatabaseOption {
             final MongoClient mongoClient = !authenticate ? new MongoClient(hostname, port) :
                     new MongoClient(
                             new ServerAddress(hostname, port),
-                            Collections.singletonList(MongoCredential.createCredential(username, authenticationDatabase, password.toCharArray()))
+                            Collections.singletonList(MongoCredential.createCredential(username, authenticationDatabase, password.toCharArray())),
+                            MongoClientOptions.builder().sslEnabled(sslEnabled).build()
                     );
 
             this.database = mongoClient.getDatabase(authenticationDatabase);
