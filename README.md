@@ -58,7 +58,7 @@
 [downloads-shield]: https://img.shields.io/github/downloads/frosxt/light/total
 [downloads-url]: https://github.com/frosxt/light/releases
 [commits-shield]: https://img.shields.io/github/last-commit/frosxt/light
-[commits-url]: https://github.com/frosxt/commits/master
+[commits-url]: https://github.com/frosxt/light/commits/master
 # light
 
 A library designed to help develop spigot plugins and eliminate redudant code within a project, and across projects. Aims to speed up the development of new projects by removing repetition. Designed to be optimised and  as minimal as possible on performance. Supports minecraft versions from 1.8 to the latest.
@@ -100,7 +100,7 @@ Light is run alongside another plugin which utilises this library. Any plugin ca
 <dependency>
     <groupId>com.github.frosxt</groupId>
     <artifactId>light</artifactId>
-    <version>v1.4.5</version>
+    <version>v1.4.6</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
@@ -110,7 +110,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.frosxt:light:v1.4.5'
+    implementation 'com.github.frosxt:light:v1.4.6'
 }
 ```
 #### Examples
@@ -151,22 +151,22 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 ## Roadmap
 
-- [ ] NBTAPI (Supporting all versions)
+- [ ] Database Management (MySQL, MongoDB and Redis)
 
 ## FAQ
 
 #### Who is this meant for?
 
-This is meant for developers to make the development of minecraft plugins easier. Server owners don't need to do anything with this except install it as a plugin on servers which utilise this library.
+This is meant for developers to make the development of Minecraft plugins easier. Server owners don't need to do anything with this except install it as a plugin on servers which utilise this library.
 
 #### Will this have x feature or support?
 
-If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue.
+If there is a specific feature or support for something you'd like to see, feel free to suggest it by opening an issue.
 
 
 ## Optimisations
 
-This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as-with all other products.
+This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as with all other products.
 
 
 ## Authors
@@ -176,7 +176,7 @@ This library is designed to be as optimised as possible and provide the most cos
 
 ## Support
 
-For support, you can message me privately on discord @ muhammad#4616 or open an issue.
+For support, you can message me privately on discord @ muhamallah or open an issue.
 
 
 ## Acknowledgements
