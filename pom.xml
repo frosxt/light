@@ -6,7 +6,7 @@
 
     <groupId>com.github.frosxt</groupId>
     <artifactId>light</artifactId>
-    <version>1.4.5</version>
+    <version>1.4.6</version>
     <packaging>jar</packaging>
 
     <name>light</name>
@@ -98,6 +98,11 @@
             <artifactId>annotations</artifactId>
             <version>23.0.0</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver</artifactId>
+            <version>3.12.4</version>
         </dependency>
     </dependencies>
 </project>
