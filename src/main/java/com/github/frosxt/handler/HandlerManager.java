@@ -4,6 +4,7 @@ import java.util.*;
 
 /**
  * Stores and loads IHandler classes
+ * <p>
  * A new instance of this class should be made on plugin startup
  */
 public class HandlerManager {
@@ -67,12 +68,11 @@ public class HandlerManager {
 
     /**
      * Gets a registered handler
-     * @param tClass The class to search for
+     * @param hClass The class to search for
      * @return The found handler
-     * @param <T> The type of handler
      */
-    public <T> T getHandler(final Class<T> tClass) {
-        return (T) map.get(tClass);
+    public IHandler getHandler(final Class<? extends IHandler> hClass) {
+        return map.get(hClass);
     }
 
     public Collection<IHandler> getHandlers() {
