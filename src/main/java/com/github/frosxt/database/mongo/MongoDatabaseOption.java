@@ -24,13 +24,15 @@ public abstract class MongoDatabaseOption implements DatabaseOption {
     @Getter
     private MongoDatabase database;
 
-    public MongoDatabaseOption(final String hostname,
-                               final int port,
-                               final String username,
-                               final String password,
-                               final String authenticationDatabase,
-                               final boolean authenticate,
-                               final boolean sslEnabled) {
+    public MongoDatabaseOption(
+            final String hostname,
+            final int port,
+            final String username,
+            final String password,
+            final String authenticationDatabase,
+            final boolean authenticate,
+            final boolean sslEnabled) {
+
         this.hostname = hostname;
         this.port = port;
         this.username = username;
