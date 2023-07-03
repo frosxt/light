@@ -157,16 +157,16 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 #### Who is this meant for?
 
-This is meant for developers to make the development of minecraft plugins easier. Server owners don't need to do anything with this except install it as a plugin on servers which utilise this library.
+This is meant for developers to make the development of Minecraft plugins easier. Server owners don't need to do anything with this except install it as a plugin on servers which utilise this library.
 
 #### Will this have x feature or support?
 
-If there is a specific feature or support for something that you'd like to see, feel free to make a suggestion by opening an issue.
+If there is a specific feature or support for something you'd like to see, feel free to suggest it by opening an issue.
 
 
 ## Optimisations
 
-This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as-with all other products.
+This library is designed to be as optimised as possible and provide the most cost-free methods of getting stuff done. Performance is a priority with this library as with all other products.
 
 
 ## Authors
@@ -176,7 +176,7 @@ This library is designed to be as optimised as possible and provide the most cos
 
 ## Support
 
-For support, you can message me privately on discord @ muhammad#4616 or open an issue.
+For support, you can message me privately on discord @ muhamallah or open an issue.
 
 
 ## Acknowledgements
