@@ -29,7 +29,7 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
     private final String username;
     private String password;
     private final String authenticationDatabase;
-    private boolean authenticate;
+    private boolean authenticate = false;
     private boolean sslEnabled;
 
     @Getter
@@ -42,7 +42,6 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
      * @param username The database username
      * @param password The database password
      * @param authenticationDatabase The database name
-     * @param authenticate Whether the database should be authenticated or not
      * @param sslEnabled Whether SSL is enabled or not
      */
     public MongoDatabaseHandler(
@@ -51,7 +50,6 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
             final String username,
             final String password,
             final String authenticationDatabase,
-            final boolean authenticate,
             final boolean sslEnabled) {
 
         this.hostname = hostname;
@@ -78,14 +76,22 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
      */
     @Override
     public void connect() {
-        try {
-            final MongoClient mongoClient = !authenticate ? new MongoClient(hostname, port) :
-                    new MongoClient(
-                            new ServerAddress(hostname, port),
-                            MongoCredential.createCredential(username, authenticationDatabase, password.toCharArray()),
-                            MongoClientOptions.builder().sslEnabled(sslEnabled).build()
-                    );
+        if (authenticate) {
+            try (final MongoClient mongoClient = new MongoClient(
+                    new ServerAddress(hostname, port),
+                    MongoCredential.createCredential(username, authenticationDatabase, password.toCharArray()),
+                    MongoClientOptions.builder().sslEnabled(sslEnabled).build())) {
 
+                this.database = mongoClient.getDatabase(authenticationDatabase);
+            } catch (final Exception exception) {
+                Bukkit.getLogger().severe("Error whilst connecting to MongoDB!");
+                exception.printStackTrace();
+            }
+
+            return;
+        }
+
+        try (final MongoClient mongoClient = new MongoClient(hostname, port)) {
             this.database = mongoClient.getDatabase(authenticationDatabase);
         } catch (final Exception exception) {
             Bukkit.getLogger().severe("Error whilst connecting to MongoDB!");
