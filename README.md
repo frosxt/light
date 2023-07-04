@@ -83,6 +83,8 @@ A library designed to help develop spigot plugins and eliminate redudant code wi
 - Menu Support (Paginated & non-paginated)
 - Command Handler (Support for sub commands)
 - Message Handler (Caches messages for optimal performance, supports titles, actionbar and sounds)
+- MongoDB and MySQL database implementation
+- Custom handler storage and initialisation
 
 
 ## Usage
@@ -151,7 +153,8 @@ public class ExamplePagedMenu extends PaginatedMenu {
 
 ## Roadmap
 
-- [ ] Database Management (MySQL, MongoDB and Redis)
+- [x] Database Management (MySQL and MongoDB)
+- [ ] Redis database management
 
 ## FAQ
 
