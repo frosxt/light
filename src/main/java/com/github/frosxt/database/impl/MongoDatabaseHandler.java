@@ -1,4 +1,4 @@
-package com.github.frosxt.database.mongo;
+package com.github.frosxt.database.impl;
 
 import com.github.frosxt.database.IDatabase;
 import com.github.frosxt.handler.IHandler;
@@ -97,6 +97,11 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
             Bukkit.getLogger().severe("Error whilst connecting to MongoDB!");
             exception.printStackTrace();
         }
+    }
+
+    @Override
+    public void disconnect() {
+        // This method is empty as Mongo handles connection pooling itself, meaning we do not need to disconnect it
     }
 
     /**
