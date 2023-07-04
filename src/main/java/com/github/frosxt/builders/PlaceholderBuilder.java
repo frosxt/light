@@ -31,8 +31,8 @@ public class PlaceholderBuilder {
         placeholders = new HashMap<>();
     }
 
-    public void addPlaceholder(final String replace, final String replacement) {
-        placeholders.put(replace, replacement);
+    public void addPlaceholder(final String placeholder, final String replacement) {
+        placeholders.put(placeholder, replacement);
     }
 
     public void addPlaceholders(final Map<String, String> placeholders) {

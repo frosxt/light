@@ -22,6 +22,7 @@ import com.github.frosxt.colour.ColouredString;
 import com.github.frosxt.commands.error.ArgumentError;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -83,14 +84,14 @@ public abstract class AbstractCommand extends Command implements ArgumentParser 
                     sender.sendMessage(new ColouredString(((flip ^= true) ? "&4" : "&c") + element.toString()).toString());
                 }
             }
-        } catch (final Throwable throwable) {
+        } catch (final Exception exception) {
             sender.sendMessage(new ColouredString("&cThere was an error processing your command!").toString());
-            throwable.printStackTrace();
+            exception.printStackTrace();
             if (verbose.get()) {
-                sender.sendMessage(new ColouredString("&6Caused By: " + throwable.getClass().getName() + ": " + throwable.getMessage()).toString());
+                sender.sendMessage(new ColouredString("&6Caused By: " + exception.getClass().getName() + ": " + exception.getMessage()).toString());
                 boolean flip = false;
 
-                for (final StackTraceElement element : throwable.getStackTrace()) {
+                for (final StackTraceElement element : exception.getStackTrace()) {
                     sender.sendMessage(new ColouredString(((flip ^= true) ? "&4" : "&c") + element.toString()).toString());
                 }
             }
@@ -148,12 +149,12 @@ public abstract class AbstractCommand extends Command implements ArgumentParser 
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return this.name;
     }
 
     @Override
-    public List<String> getAliases() {
+    public @NotNull List<String> getAliases() {
         return this.aliases;
     }
 

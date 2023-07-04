@@ -1,4 +1,4 @@
-package com.github.frosxt.database.mongo;
+package com.github.frosxt.database.impl;
 
 import com.github.frosxt.database.IDatabase;
 import com.github.frosxt.handler.IHandler;
