@@ -24,13 +24,14 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import java.io.*;
+import java.nio.file.Files;
 
 /**
  *
  * @param <F>
  *
  * Every store must have its own file, and the file will be taken and written to
- * A SparkStore can only be used once for each file, and the file must be a .json file
+ * A store can only be used once for each file, and the file must be a .json file
  */
 public class LightStore<F extends File> {
     private final Gson gson;
@@ -63,8 +64,8 @@ public class LightStore<F extends File> {
      * @param file The file you want to retrieve data from
      * @return A JsonObject of the data
      */
-    public JsonObject getObject(final File file) throws FileNotFoundException, UnsupportedEncodingException {
-        return new JsonParser().parse(new InputStreamReader(new FileInputStream(file), "UTF-8")).getAsJsonObject();
+    public JsonObject getObject(final File file) throws IOException {
+        return new JsonParser().parse(new InputStreamReader(Files.newInputStream(file.toPath()), "UTF-8")).getAsJsonObject();
     }
 
     /**

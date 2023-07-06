@@ -18,8 +18,8 @@
 
 package com.github.frosxt.messages;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashMap;
@@ -36,17 +36,17 @@ public class MessageCache {
         this.storedMessages = new HashMap<>();
     }
 
-    public MessageCache sendMessage(final Player player, final String path) {
+    public MessageCache sendMessage(final CommandSender sender, final String path) {
         if (containsMessage(path)) {
-            getMessage(path).sendMessage(player);
+            getMessage(path).sendMessage(sender);
         }
 
         return this;
     }
 
-    public MessageCache sendMessage(final Player player, final String path, final Map<String, String> placeholders) {
+    public MessageCache sendMessage(final CommandSender sender, final String path, final Map<String, String> placeholders) {
         if (containsMessage(path)) {
-            getMessage(path).sendMessage(player, placeholders);
+            getMessage(path).sendMessage(sender, placeholders);
         }
 
         return this;

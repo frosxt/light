@@ -21,42 +21,43 @@ package com.github.frosxt.commands;
 import com.github.frosxt.colour.ColouredString;
 import com.github.frosxt.commands.error.ArgumentError;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.TabCompleter;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractCommand extends Command implements ArgumentParser {
+public abstract class AbstractCommand extends Command implements ArgumentParser, CommandExecutor, TabCompleter {
+    private final JavaPlugin plugin;
     private final String name;
     private final List<String> aliases;
     private List<SubCommand> subCommands;
 
-    public AbstractCommand(final String name, final List<String> aliases) {
+    public AbstractCommand(final JavaPlugin plugin, final String name, final List<String> aliases) {
         super(name);
+
+        this.plugin = plugin;
         this.setAliases(aliases);
         this.name = name;
         this.aliases = aliases;
     }
 
-    public AbstractCommand(final String name) {
-        this(name, new ArrayList<>());
+    public AbstractCommand(final JavaPlugin plugin, final String name) {
+        this(plugin, name, new ArrayList<>());
     }
 
     public abstract boolean onCommand(CommandSender commandSender, String[] arguments);
 
     public void register() {
-        CommandHandler.registerCommand(this);
+        CommandHandler.registerCommand(plugin, this, this, this);
     }
 
     public void unregister() {
         CommandHandler.unregisterCommand(this);
-    }
-
-    @Override
-    public boolean isRegistered() {
-        return CommandHandler.getKnownCommands().containsKey(getName());
     }
 
     @Override
@@ -105,7 +106,7 @@ public abstract class AbstractCommand extends Command implements ArgumentParser 
     }
 
     @Override
-    public List<String> tabComplete(final CommandSender sender, final String alias, final String[] arguments) throws IllegalArgumentException {
+    public @NotNull List<String> tabComplete(final CommandSender sender, final String alias, final String[] arguments) throws IllegalArgumentException {
         List<String> tab = new ArrayList<>();
 
         if (this.subCommands == null) {
@@ -123,12 +124,12 @@ public abstract class AbstractCommand extends Command implements ArgumentParser 
         }
 
         final String firstArgument = arguments[0];
-        for (final SubCommand subCommand2 : this.subCommands) {
-            if (subCommand2.getName().equalsIgnoreCase(firstArgument)) {
-                if (!sender.hasPermission(subCommand2.getPermission())) {
+        for (final SubCommand subCommand : this.subCommands) {
+            if (subCommand.getName().equalsIgnoreCase(firstArgument)) {
+                if (!sender.hasPermission(subCommand.getPermission())) {
                     continue;
                 }
-                tab = subCommand2.onTabComplete(sender, arguments);
+                tab = subCommand.onTabComplete(sender, arguments);
             }
         }
 
