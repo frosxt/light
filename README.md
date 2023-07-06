@@ -151,6 +151,8 @@ public class ExamplePagedMenu extends PaginatedMenu {
 }
 ```
 
+For more examples and explanations, please see the wiki [here](https://github.com/frosxt/light/wiki).
+
 ## Roadmap
 
 - [x] Database Management (MySQL and MongoDB)
