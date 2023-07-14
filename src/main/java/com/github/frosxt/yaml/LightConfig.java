@@ -31,6 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 /**
  *
@@ -49,16 +50,21 @@ public abstract class LightConfig {
     @Getter
     private FileConfiguration config;
 
+    private final Optional<String> subFolder;
+
     private final File file;
 
     /**
+     * @param plugin The JavaPlugin instance
      * @param fileName This is the name of the config file
      * @param path This is the path for the config file to load to
+     * @param subFolder The subfolder of the file (e.g. /language/english.yml)
      */
-    public LightConfig(final JavaPlugin plugin, final String fileName, final String path) {
+    public LightConfig(final JavaPlugin plugin, final String fileName, final String path, final Optional<String> subFolder) {
         this.plugin = plugin;
         this.fileName = fileName;
         this.path = path;
+        this.subFolder = subFolder;
         this.file = new File(path + File.separator + fileName + ".yml");
     }
 
@@ -67,7 +73,11 @@ public abstract class LightConfig {
      */
     public void loadFile() {
         if (!file.exists()) {
-            plugin.saveResource(fileName + ".yml", false);
+            if (subFolder.isPresent()) {
+                plugin.saveResource(subFolder.get() + File.separator + fileName + ".yml", false);
+            } else {
+                plugin.saveResource(fileName + ".yml", false);
+            }
         }
 
         config = new YamlConfiguration();
