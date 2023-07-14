@@ -67,7 +67,7 @@ public abstract class LightConfig {
      */
     public void loadFile() {
         if (!file.exists()) {
-            plugin.saveResource(fileName + ".yml", false);
+            plugin.saveResource(path + File.separator + fileName + ".yml", false);
         }
 
         config = new YamlConfiguration();
