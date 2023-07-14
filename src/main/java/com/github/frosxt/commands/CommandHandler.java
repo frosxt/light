@@ -19,92 +19,70 @@
 package com.github.frosxt.commands;
 
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandMap;
-import org.bukkit.command.PluginCommand;
-import org.bukkit.command.TabCompleter;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.command.Command;
+import org.bukkit.command.SimpleCommandMap;
 import org.bukkit.plugin.SimplePluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Objects;
+import java.util.Map;
 
 public class CommandHandler {
     private CommandHandler() {
         throw new UnsupportedOperationException("CommandHandler cannot be instantiated!");
     }
 
-    private static CommandMap getCommandMap() {
-        try {
-            if (Bukkit.getPluginManager() instanceof SimplePluginManager) {
-                final Field f = Bukkit.getServer().getClass().getDeclaredField("commandMap");
-                f.setAccessible(true);
+    private static SimpleCommandMap simpleCommandMap;
 
-                return (CommandMap) f.get(Bukkit.getServer());
-            }
-            return null;
-        } catch (final IllegalAccessException | NoSuchFieldException e) {
-            return null;
+    private static void setupSimpleCommandMap() {
+        final SimplePluginManager simplePluginManager = (SimplePluginManager) (Bukkit.getServer().getPluginManager());
+        Field field = null;
+        try {
+            field = SimplePluginManager.class.getDeclaredField("commandMap");
+        }
+        catch (final Exception exception) {
+            exception.printStackTrace();
+        }
+        field.setAccessible(true);
+        try {
+            simpleCommandMap = (SimpleCommandMap) field.get(simplePluginManager);
+        }
+        catch (final Exception exception) {
+            exception.printStackTrace();
         }
     }
 
-    public static void registerCommand(final JavaPlugin plugin,
-                                       final CommandExecutor commandExecutor,
-                                       final TabCompleter tabCompleter,
-                                       final AbstractCommand command) {
-
-        final PluginCommand pluginCommand = getPluginCommand(plugin, command);
-        assert (pluginCommand != null);
-
-        final CommandMap commandMap = getCommandMap();
-        assert (commandMap != null);
-
-        commandMap.register("light", command);
-        pluginCommand.setExecutor(commandExecutor);
-
-        if (tabCompleter != null) {
-            pluginCommand.setTabCompleter(tabCompleter);
+    public static Map<String, Command> getKnownCommands() {
+        try {
+            final Field field = SimpleCommandMap.class.getDeclaredField("knownCommands");
+            field.setAccessible(true);
+            return (Map) field.get(simpleCommandMap);
         }
+        catch (final Exception exception) {
+            exception.printStackTrace();
+            return Collections.emptyMap();
+        }
+    }
+
+    public static void registerCommand(final AbstractCommand command) {
+        simpleCommandMap.register("Light", command);
     }
 
     public static void unregisterCommand(final AbstractCommand command) {
-        command.unregister(Objects.requireNonNull(getCommandMap()));
-        try {
-            if (!(Bukkit.getPluginManager() instanceof SimplePluginManager)) {
-                return;
+        command.unregister(simpleCommandMap);
+
+        final HashMap<String, Command> knownCommands = new HashMap<>(CommandHandler.getKnownCommands());
+        for (final Map.Entry<String, Command> entry : knownCommands.entrySet()) {
+            if (!entry.getKey().equalsIgnoreCase(command.getName())) {
+                continue;
             }
 
-            final Field field = SimplePluginManager.class.getDeclaredField("commandMap");
-            field.setAccessible(true);
-
-            final CommandMap commandMap = (CommandMap) field.get(Bukkit.getPluginManager());
-            final Field f = commandMap.getClass().getDeclaredField("knownCommands");
-            f.setAccessible(true);
-
-            final HashMap commands = (HashMap) f.get(commandMap);
-            commands.remove(command.getName());
-            command.getAliases().forEach(commands::remove);
-        } catch (final IllegalAccessException | NoSuchFieldException exception) {
-            exception.printStackTrace();
+            CommandHandler.getKnownCommands().remove(entry.getKey());
         }
     }
 
-    private static PluginCommand getPluginCommand(final JavaPlugin plugin, final AbstractCommand command) {
-        try {
-            final Constructor constructor = PluginCommand.class.getDeclaredConstructor(String.class, Plugin.class);
-            constructor.setAccessible(true);
-
-            final PluginCommand pluginCommand = (PluginCommand) constructor.newInstance(command.getName(), plugin);
-            pluginCommand.setAliases(command.getAliases());
-
-            return pluginCommand;
-        } catch (final InvocationTargetException | NoSuchMethodException | InstantiationException | IllegalAccessException exception) {
-            exception.printStackTrace();
-            return null;
-        }
+    static {
+        CommandHandler.setupSimpleCommandMap();
     }
 }

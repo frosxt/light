@@ -21,9 +21,7 @@ package com.github.frosxt.commands;
 import com.github.frosxt.colour.ColouredString;
 import com.github.frosxt.commands.error.ArgumentError;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class AbstractCommand extends Command implements ArgumentParser, CommandExecutor, TabCompleter {
+public abstract class AbstractCommand extends Command implements ArgumentParser {
     private final JavaPlugin plugin;
     private final String name;
     private final List<String> aliases;
@@ -53,7 +51,7 @@ public abstract class AbstractCommand extends Command implements ArgumentParser,
     public abstract boolean onCommand(CommandSender commandSender, String[] arguments);
 
     public void register() {
-        CommandHandler.registerCommand(plugin, this, this, this);
+        CommandHandler.registerCommand(this);
     }
 
     public void unregister() {
