@@ -1,5 +1,5 @@
 name: Light
 version: '${project.version}'
-main: com.github.frosxt.light.Light
+main: com.github.frosxt.Light
 api-version: 1.19
 authors: [ frost ]
