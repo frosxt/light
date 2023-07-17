@@ -28,7 +28,7 @@ public final class Light extends JavaPlugin {
     @Override
     public void onEnable() {
         final Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
-        mongoLogger.setLevel(Level.OFF);
+        mongoLogger.setLevel(Level.SEVERE);
     }
 
     @Override
