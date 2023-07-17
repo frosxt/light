@@ -20,11 +20,15 @@ package com.github.frosxt;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public final class Light extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        final Logger mongoLogger = Logger.getLogger("org.mongodb.driver");
+        mongoLogger.setLevel(Level.OFF);
     }
 
     @Override
