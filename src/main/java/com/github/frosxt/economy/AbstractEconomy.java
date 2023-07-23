@@ -2,7 +2,7 @@ package com.github.frosxt.economy;
 
 import org.bukkit.OfflinePlayer;
 
-public abstract class Economy {
+public abstract class AbstractEconomy {
 
     /**
      * Gets the players available balance

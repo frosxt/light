@@ -1,16 +1,17 @@
 package com.github.frosxt.economy.impl;
 
-import com.github.frosxt.economy.Economy;
+import com.github.frosxt.economy.AbstractEconomy;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultEconomy extends Economy {
-    private final net.milkbowl.vault.economy.Economy vault;
+public class VaultEconomy extends AbstractEconomy {
+    private final Economy vault;
 
     public VaultEconomy() {
-        final RegisteredServiceProvider<net.milkbowl.vault.economy.Economy> serviceProvider =
-                Bukkit.getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        final RegisteredServiceProvider<Economy> serviceProvider =
+                Bukkit.getServicesManager().getRegistration(Economy.class);
 
         if (serviceProvider == null) {
             this.vault = null;
