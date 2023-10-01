@@ -62,6 +62,8 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
     public void connect() {
         final MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connectionString))
+                .retryWrites(true)
+                .retryReads(true)
                 .build();
 
         this.mongoClient = MongoClients.create(settings);
