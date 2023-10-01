@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.frosxt:light:v1.5.2'
+    implementation 'com.github.frosxt:light:v1.5.4'
 }
 ```
 #### Examples
