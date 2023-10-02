@@ -48,6 +48,15 @@ public abstract class MongoDatabaseHandler implements IDatabase, IHandler {
         this.connectionString = "mongodb+srv://" + username + ":" + password + "@" + hostname + "/?retryWrites=true&w=majority";
     }
 
+    /**
+     * Creates a new MongoDB instance
+     * @param connectionString The connection string
+     */
+    public MongoDatabaseHandler(final String databaseName, final String connectionString) {
+        this.databaseName = databaseName;
+        this.connectionString = connectionString;
+    }
+
     @Override
     public void load() {
         // Connects the database and initialises the database variable
