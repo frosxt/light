@@ -102,7 +102,7 @@ Light is run alongside another plugin which utilises this library. Any plugin ca
 <dependency>
     <groupId>com.github.frosxt</groupId>
     <artifactId>light</artifactId>
-    <version>v1.5.4</version>
+    <version>v1.5.6</version>
 </dependency>
 ```
 #### Gradle (build.gradle)
@@ -112,7 +112,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.frosxt:light:v1.5.4'
+    implementation 'com.github.frosxt:light:v1.5.6'
 }
 ```
 #### Examples
