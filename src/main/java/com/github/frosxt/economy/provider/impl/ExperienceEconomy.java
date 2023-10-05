@@ -4,7 +4,7 @@ import com.github.frosxt.economy.provider.IEconomy;
 import com.github.frosxt.utils.ExperienceUtils;
 import org.bukkit.OfflinePlayer;
 
-public class ExperienceEconomy extends IEconomy {
+public class ExperienceEconomy implements IEconomy {
     @Override
     public String getName() {
         return "Experience";

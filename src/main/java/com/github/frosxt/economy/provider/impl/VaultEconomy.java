@@ -6,7 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultEconomy extends IEconomy {
+public class VaultEconomy implements IEconomy {
     private final Economy vault;
 
     public VaultEconomy() {
