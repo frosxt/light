@@ -18,13 +18,14 @@
 
 package com.github.frosxt;
 
+import com.github.frosxt.economy.registry.impl.DefaultEconomyRegistry;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class Light extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        new DefaultEconomyRegistry();
     }
 
     @Override

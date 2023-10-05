@@ -1,12 +1,12 @@
-package com.github.frosxt.economy.impl;
+package com.github.frosxt.economy.provider.impl;
 
-import com.github.frosxt.economy.AbstractEconomy;
+import com.github.frosxt.economy.provider.IEconomy;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultEconomy extends AbstractEconomy {
+public class VaultEconomy extends IEconomy {
     private final Economy vault;
 
     public VaultEconomy() {
@@ -19,6 +19,11 @@ public class VaultEconomy extends AbstractEconomy {
         }
 
         this.vault = serviceProvider.getProvider();
+    }
+
+    @Override
+    public String getName() {
+        return "Vault";
     }
 
     @Override

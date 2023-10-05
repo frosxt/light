@@ -1,15 +1,21 @@
-package com.github.frosxt.economy;
+package com.github.frosxt.economy.provider;
 
 import org.bukkit.OfflinePlayer;
 
-public abstract class AbstractEconomy {
+public interface IEconomy {
+
+    /**
+     * Gets the name of this economy
+     * @return The name of the economy
+     */
+    String getName();
 
     /**
      * Gets the players available balance
      * @param player The player whose balance to retrieve
      * @return The players available balance
      */
-    public abstract double getBalance(OfflinePlayer player);
+    double getBalance(OfflinePlayer player);
 
     /**
      * Checks to see if the player has some balance available
@@ -17,7 +23,7 @@ public abstract class AbstractEconomy {
      * @param amount The minimum amount this player should have
      * @return true if the player can have this amount withdrawn
      */
-    public abstract boolean hasBalance(OfflinePlayer player, double amount);
+    boolean hasBalance(OfflinePlayer player, double amount);
 
     /**
      * Withdraw from the player's balance if they can afford it
@@ -25,7 +31,7 @@ public abstract class AbstractEconomy {
      * @param amount The amount to withdraw from this player
      * @return true if the amount was withdrawn successfully
      */
-    public abstract boolean withdraw(OfflinePlayer player, double amount);
+    boolean withdraw(OfflinePlayer player, double amount);
 
     /**
      * Deposit to the player's balance
@@ -33,5 +39,5 @@ public abstract class AbstractEconomy {
      * @param amount The amount to deposit to this player
      * @return true if the amount was deposited successfully
      */
-    public abstract boolean deposit(OfflinePlayer player, double amount);
+    boolean deposit(OfflinePlayer player, double amount);
 }
