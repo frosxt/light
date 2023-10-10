@@ -44,6 +44,9 @@ public class DefaultEconomyRegistry implements EconomyRegistry {
     }
 
     public static DefaultEconomyRegistry getInstance() {
+        if (instance == null) {
+            instance = new DefaultEconomyRegistry();
+        }
         return instance;
     }
 }
