@@ -31,12 +31,14 @@ public class PlaceholderBuilder {
         placeholders = new HashMap<>();
     }
 
-    public void addPlaceholder(final String placeholder, final String replacement) {
+    public PlaceholderBuilder addPlaceholder(final String placeholder, final String replacement) {
         placeholders.put(placeholder, replacement);
+        return this;
     }
 
-    public void addPlaceholders(final Map<String, String> placeholders) {
+    public PlaceholderBuilder addPlaceholders(final Map<String, String> placeholders) {
         placeholders.forEach(this::addPlaceholder);
+        return this;
     }
 
     public String parse(String args) {
